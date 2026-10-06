@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=5cc07b9c-1770-4bc1-ae99-ea46984498da
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=5cc07b9c-1770-4bc1-ae99-ea46984498da
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=5cc07b9c-1770-4bc1-ae99-ea46984498da
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=5cc07b9c-1770-4bc1-ae99-ea46984498da
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maceda Lighting Inbox</title>
+<style>
+:root{--g:#173b2c;--g2:#0f2d21;--c:#fcf8f0;--gold:#c8a96a;--line:#e8e1d7;--muted:#6f756f}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--c);color:#1d251f}button,input,textarea{font:inherit}.hidden{display:none!important}
+.login{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(135deg,var(--g2),var(--g))}
+.card{width:min(430px,100%);background:#fff;border-radius:22px;padding:28px;box-shadow:0 18px 60px #0004}.brand{font-weight:900;letter-spacing:.04em;color:var(--g);font-size:25px}.sub{color:var(--muted);margin:7px 0 22px}
+label{display:block;font-weight:700;font-size:13px;margin:14px 0 6px}input{width:100%;padding:13px 14px;border:1px solid #d8d5cf;border-radius:12px;outline:none}input:focus{border-color:var(--g)}
+.primary{width:100%;margin-top:18px;border:0;background:var(--g);color:#fff;padding:13px 16px;border-radius:12px;font-weight:800;cursor:pointer}.err{color:#a33;font-size:13px;margin-top:12px}
+.app{height:100vh;display:grid;grid-template-columns:360px 1fr;background:#fff}.sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0}.sidehead{padding:18px;border-bottom:1px solid var(--line);background:var(--g);color:white}
+.sideheadtop{display:flex;align-items:center;justify-content:space-between;gap:12px}.sidehead .brand{color:#fff;font-size:20px}.logout{border:1px solid #ffffff55;background:transparent;color:#fff;border-radius:9px;padding:7px 10px;cursor:pointer}.search{margin-top:13px;background:#fff;border:0}.threads{overflow:auto;flex:1}
+.thread{padding:14px 16px;border-bottom:1px solid #eee9e1;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:6px 10px}.thread:hover,.thread.active{background:#f4efe6}.tname{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tphone,.preview,.time{font-size:12px;color:var(--muted)}.preview{grid-column:1/3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.badge{align-self:center;background:var(--gold);color:#282011;border-radius:999px;min-width:22px;height:22px;padding:0 7px;display:grid;place-items:center;font-weight:900;font-size:12px}
+.chat{display:flex;flex-direction:column;min-width:0;background:#f8f5ef}.empty{margin:auto;text-align:center;color:var(--muted);padding:30px}.chathead{height:72px;background:#fff;border-bottom:1px solid var(--line);padding:14px 20px;display:flex;align-items:center}.cname{font-weight:900;font-size:18px}.cmeta{font-size:12px;color:var(--muted);margin-top:3px}.messages{flex:1;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:10px}
+.row{display:flex}.row.inbound{justify-content:flex-start}.row.outbound{justify-content:flex-end}.bubble{max-width:min(650px,78%);padding:11px 14px;border-radius:17px;box-shadow:0 1px 2px #0001;white-space:pre-wrap;word-break:break-word}.inbound .bubble{background:#fff;border-bottom-left-radius:5px}.outbound .bubble{background:var(--g);color:#fff;border-bottom-right-radius:5px}.btime{font-size:10px;margin-top:5px;opacity:.65}.bad{color:#ffd0d0}
+.composer{background:#fff;border-top:1px solid var(--line);padding:14px 18px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}textarea{resize:none;width:100%;min-height:48px;max-height:150px;border:1px solid #d8d5cf;border-radius:14px;padding:12px 14px;outline:none}.send{border:0;background:var(--g);color:#fff;border-radius:13px;padding:14px 20px;font-weight:900;cursor:pointer}.send:disabled{opacity:.45}.notice{padding:8px 18px;background:#fff4cf;border-bottom:1px solid #f2db82;font-size:12px;color:#5a4913}
+@media(max-width:760px){.app{grid-template-columns:1fr}.chat{display:none}.app.chat-open .sidebar{display:none}.app.chat-open .chat{display:flex}.chathead:before{content:"‹";font-size:34px;margin-right:12px;cursor:pointer}.chathead .hinfo{flex:1}}
+</style>
+
+<style id="aiReviewStyles">
+/* MACEDA_AI_REVIEW_TAB_V1 */
+.app{grid-template-rows:54px minmax(0,1fr)}
+.admin-tabs{grid-column:1/3;grid-row:1;display:flex;align-items:center;gap:8px;padding:8px 14px;background:#0f2d21;border-bottom:1px solid #315541;z-index:5}
+.admin-tabs .admin-brand{font-weight:900;color:#fff;margin-right:auto;letter-spacing:.04em;font-size:14px}
+.admin-tab{border:1px solid #ffffff33;background:transparent;color:#fff;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer}
+.admin-tab.active{background:#fff;color:#173b2c}
+.review-count{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:999px;background:#c8a96a;color:#282011;margin-left:6px;padding:0 6px;font-size:11px}
+.sidebar{grid-column:1;grid-row:2}.chat{grid-column:2;grid-row:2}
+.review-panel{grid-column:1/3;grid-row:2;overflow:auto;background:#f8f5ef;padding:24px}
+.review-head{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+.review-title{font-size:25px;font-weight:950;color:#173b2c}.review-sub{font-size:13px;color:#6f756f;margin-top:4px}
+.review-tools{display:flex;gap:8px}.review-refresh{border:1px solid #d8d5cf;background:#fff;border-radius:10px;padding:9px 12px;font-weight:800;cursor:pointer}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+.review-card{background:#fff;border:1px solid #e8e1d7;border-radius:18px;overflow:hidden;box-shadow:0 6px 20px #0000000d}
+.review-imgwrap{background:#ece8e0;aspect-ratio:3/2;display:grid;place-items:center;overflow:hidden}
+.review-imgwrap img{width:100%;height:100%;object-fit:cover;display:block}
+.review-body{padding:16px}.review-name{font-size:18px;font-weight:900;color:#173b2c}.review-meta{font-size:12px;color:#6f756f;margin-top:4px;line-height:1.45}
+.review-status{display:inline-block;margin-top:10px;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;background:#fff4cf;color:#725b12}
+.review-status.approved{background:#e3f4e8;color:#205b35}.review-status.rejected{background:#fbe3e3;color:#8e2f2f}.review-status.processing,.review-status.queued{background:#e5edf8;color:#315981}
+.review-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.review-actions button{border:0;border-radius:10px;padding:10px 8px;font-weight:900;cursor:pointer}
+.rv-approve{background:#173b2c;color:#fff}.rv-regen{background:#efe8dc;color:#4b3d28}.rv-reject{background:#f6dddd;color:#8a3030}
+.review-empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:#6f756f;background:#fff;border-radius:18px;border:1px dashed #d8d5cf}
+.review-error{background:#fbe3e3;color:#8e2f2f;padding:12px 14px;border-radius:12px;margin-bottom:14px}
+@media(max-width:760px){
+  .app{grid-template-columns:1fr;grid-template-rows:54px minmax(0,1fr)}
+  .admin-tabs{grid-column:1;grid-row:1;padding:7px 9px}.admin-tabs .admin-brand{display:none}
+  .admin-tab{flex:1;padding:9px 7px}
+  .sidebar,.chat,.review-panel{grid-column:1;grid-row:2}
+  .review-panel{padding:14px}.review-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="login" class="login">
+  <form id="loginForm" class="card">
+    <div class="brand">MACEDA LIGHTING</div><div class="sub">Private SMS Inbox</div>
+    <label>Email</label><input id="email" type="email" autocomplete="username" required>
+    <label>Password</label><input id="password" type="password" autocomplete="current-password" required>
+    <button class="primary" type="submit">Sign in</button><div id="loginErr" class="err"></div>
+  </form>
+</div>
+<div id="app" class="app hidden">
+
+  <div id="adminTabs" class="admin-tabs">
+    <div class="admin-brand">MACEDA LIGHTING ADMIN</div>
+    <button id="messagesTab" class="admin-tab active" type="button">Messages</button>
+    <a id="reviewsTabLink" class="admin-tab" href="/review/" style="text-decoration:none">AI House Reviews <span id="reviewCount" class="review-count hidden">0</span></a>
+  </div>
+  <section id="reviewPanel" class="review-panel hidden">
+    <div class="review-head">
+      <div><div class="review-title">AI House Reviews</div><div class="review-sub">Review generated customer house previews before anything is approved for use.</div></div>
+      <div class="review-tools"><button id="reviewRefresh" class="review-refresh" type="button">Refresh</button></div>
+    </div>
+    <div id="reviewError" class="review-error hidden"></div>
+    <div id="reviewGrid" class="review-grid"><div class="review-empty">Loading previews…</div></div>
+  </section>
+  <aside class="sidebar">
+    <div class="sidehead"><div class="sideheadtop"><div class="brand">INBOX</div><button id="logout" class="logout">Log out</button></div><input id="search" class="search" placeholder="Search customers or numbers"></div>
+    <div id="threads" class="threads"></div>
+  </aside>
+  <main class="chat">
+    <div id="empty" class="empty">Select a customer conversation.</div>
+    <div id="chatInner" class="hidden" style="display:flex;flex-direction:column;height:100%">
+      <div class="chathead" id="chatHead"><div class="hinfo"><div id="chatName" class="cname"></div><div id="chatMeta" class="cmeta"></div></div></div>
+      <div class="notice">Texts are sent from your Maceda Lighting Twilio number. Customer replies appear here automatically.</div>
+      <div id="messages" class="messages"></div>
+      <div class="composer"><textarea id="draft" placeholder="Type a reply…" maxlength="1600"></textarea><button id="send" class="send">Send</button></div>
+    </div>
+  </main>
+</div>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+const SUPABASE_URL = "https://gidqdlcvyasqalitqvcn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_bHlbA15kDnpoG4VA25rK0A_ollbphf0";
+const sb = createClient(SUPABASE_URL,SUPABASE_KEY);
+const apiUrl=SUPABASE_URL+"/functions/v1/sms-inbox-api";
+const sendUrl=SUPABASE_URL+"/functions/v1/send-sms";
+let all=[],selected=null,poll=null;
+const el=id=>document.getElementById(id);
+function esc(v){return String(v||"").replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function pformat(v){var d=String(v||"").replace(/\D/g,"");if(d.length===11&&d.charAt(0)==="1")return "("+d.slice(1,4)+") "+d.slice(4,7)+"-"+d.slice(7);return v||""}
+function dt(v){return new Date(v).toLocaleString([],{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})}
+async function getSession(){var r=await sb.auth.getSession();return r.data.session}
+async function authFetch(url,opts){
+  opts=opts||{};var s=await getSession();if(!s)throw new Error("Not signed in");
+  var h=Object.assign({},opts.headers||{},{"Authorization":"Bearer "+s.access_token,"Content-Type":"application/json","apikey":SUPABASE_KEY});
+  var r=await fetch(url,Object.assign({},opts,{headers:h}));var j=await r.json().catch(function(){return {}});
+  if(!r.ok)throw new Error(j.error||j.twilio_message||"Request failed");return j;
+}
+function getThreads(){
+  var map=new Map();
+  all.forEach(function(m){
+    var k=m.customer_phone;if(!map.has(k))map.set(k,{phone:k,name:m.customer_name,address:m.customer_address,msgs:[],unread:0});
+    var t=map.get(k);t.msgs.push(m);if(m.customer_name)t.name=m.customer_name;if(m.customer_address)t.address=m.customer_address;if(m.direction==="inbound"&&!m.is_read)t.unread++;
+  });
+  return Array.from(map.values()).sort(function(a,b){return new Date(b.msgs[b.msgs.length-1].created_at)-new Date(a.msgs[a.msgs.length-1].created_at)});
+}
+function renderThreads(){
+  var q=el("search").value.toLowerCase().trim();
+  var list=getThreads().filter(function(t){var l=t.msgs[t.msgs.length-1];return !q||((t.name||"")+" "+t.phone+" "+(l.body||"")).toLowerCase().indexOf(q)>=0});
+  if(!list.length){el("threads").innerHTML='<div class="empty">No messages yet.</div>';return}
+  el("threads").innerHTML=list.map(function(t){
+    var l=t.msgs[t.msgs.length-1];
+    return '<div class="thread '+(selected===t.phone?"active":"")+'" data-phone="'+esc(t.phone)+'"><div class="tname">'+esc(t.name||pformat(t.phone))+'</div><div class="time">'+esc(dt(l.created_at))+'</div><div class="tphone">'+esc(t.name?pformat(t.phone):"")+'</div>'+(t.unread?'<div class="badge">'+t.unread+'</div>':'')+'<div class="preview">'+esc(l.body||"(media)")+'</div></div>';
+  }).join("");
+  document.querySelectorAll(".thread").forEach(function(n){n.onclick=function(){openThread(n.dataset.phone)}});
+}
+async function openThread(p){selected=p;el("app").classList.add("chat-open");renderThreads();renderChat();try{await authFetch(apiUrl,{method:"POST",body:JSON.stringify({action:"mark_read",phone:p})});all.forEach(function(m){if(m.customer_phone===p&&m.direction==="inbound")m.is_read=true});renderThreads()}catch(e){console.error(e)}}
+function renderChat(){
+  if(!selected){el("empty").classList.remove("hidden");el("chatInner").classList.add("hidden");return}
+  var t=getThreads().find(function(x){return x.phone===selected});if(!t)return;
+  el("empty").classList.add("hidden");el("chatInner").classList.remove("hidden");
+  el("chatName").textContent=t.name||pformat(t.phone);el("chatMeta").textContent=(t.name?pformat(t.phone):"")+(t.address?" • "+t.address:"");
+  el("messages").innerHTML=t.msgs.map(function(m){var bad=m.status==="failed"||m.status==="undelivered";return '<div class="row '+m.direction+'"><div class="bubble">'+esc(m.body||"(media message)")+'<div class="btime '+(bad?"bad":"")+'">'+esc(dt(m.created_at))+(m.direction==="outbound"&&m.status?" • "+esc(m.status):"")+'</div></div></div>'}).join("");
+  el("messages").scrollTop=el("messages").scrollHeight;
+}
+async function load(){try{var j=await authFetch(apiUrl);all=j.messages||[];renderThreads();renderChat()}catch(e){console.error(e);if(String(e.message).indexOf("unauthorized")>=0)logout()}}
+async function login(e){e.preventDefault();el("loginErr").textContent="";var r=await sb.auth.signInWithPassword({email:el("email").value.trim(),password:el("password").value});if(r.error){el("loginErr").textContent=r.error.message;return}showApp()}
+async function logout(){await sb.auth.signOut();clearInterval(poll);el("app").classList.add("hidden");el("login").classList.remove("hidden")}
+async function showApp(){el("login").classList.add("hidden");el("app").classList.remove("hidden");await load();clearInterval(poll);poll=setInterval(load,8000)}
+async function send(){if(!selected)return;var body=el("draft").value.trim();if(!body)return;el("send").disabled=true;try{await authFetch(sendUrl,{method:"POST",body:JSON.stringify({to:selected,body:body})});el("draft").value="";await load()}catch(e){alert("Could not send: "+e.message)}finally{el("send").disabled=false}}
+el("loginForm").onsubmit=login;el("logout").onclick=logout;el("search").oninput=renderThreads;el("send").onclick=send;el("draft").onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}};
+el("chatHead").onclick=function(){if(innerWidth<=760){el("app").classList.remove("chat-open");selected=null;renderThreads()}};
+var s=await getSession();if(s)showApp();
+</script>
+</body></html><script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="5cc07b9c-1770-4bc1-ae99-ea46984498da" data-app-host="app.netlify.com">
+// MACEDA_AI_REVIEW_TAB_V1
+const reviewApiUrl=SUPABASE_URL+"/functions/v1/review-previews-api";
+let reviewItems=[];
+function rvEsc(v){return esc(v)}
+function rvStatusLabel(v){return String(v||"").replace(/_/g," ")}
+function setAdminTab(tab){
+  var isReview=tab==="reviews";
+  document.querySelector(".sidebar").classList.toggle("hidden",isReview);
+  document.querySelector(".chat").classList.toggle("hidden",isReview);
+  el("reviewPanel").classList.toggle("hidden",!isReview);
+  el("messagesTab").classList.toggle("active",!isReview);
+  el("reviewsTab").classList.toggle("active",isReview);
+  el("app").classList.remove("chat-open");
+  if(isReview)loadReviews();
+}
+function renderReviews(){
+  var pending=reviewItems.filter(function(x){return x.preview_status==="needs_review"});
+  el("reviewCount").textContent=String(pending.length);
+  el("reviewCount").classList.toggle("hidden",pending.length===0);
+  var list=pending.length?pending:reviewItems.filter(function(x){return ["processing","queued"].includes(x.preview_status)});
+  if(!list.length){
+    el("reviewGrid").innerHTML='<div class="review-empty"><strong>No house previews need review.</strong><br><br>New AI generations will appear here automatically.</div>';
+    return;
+  }
+  el("reviewGrid").innerHTML=list.map(function(q){
+    var img=q.preview_url?'<img src="'+rvEsc(q.preview_url)+'" alt="AI house preview">':'<div class="review-meta">Preview image is being generated…</div>';
+    var status=rvStatusLabel(q.preview_status);
+    return '<article class="review-card" data-id="'+rvEsc(q.id)+'">'+
+      '<div class="review-imgwrap">'+img+'</div>'+
+      '<div class="review-body">'+
+        '<div class="review-name">'+rvEsc(q.name||"Unnamed customer")+'</div>'+
+        '<div class="review-meta">'+rvEsc(q.address||"No address")+'<br>'+rvEsc(q.phone||"")+(q.preview_generated_at?'<br>Generated '+rvEsc(dt(q.preview_generated_at)):'')+'</div>'+
+        '<span class="review-status '+rvEsc(q.preview_status)+'">'+rvEsc(status)+'</span>'+
+        (q.preview_status==="needs_review"?'<div class="review-actions">'+
+          '<button class="rv-approve" data-action="approve">Approve &amp; Send</button>'+
+          '<button class="rv-regen" data-action="regenerate">Regenerate</button>'+
+          '<button class="rv-reject" data-action="reject">Reject</button>'+
+        '</div>':'')+
+      '</div></article>';
+  }).join("");
+  document.querySelectorAll(".review-actions button").forEach(function(btn){
+    btn.onclick=function(){
+      var card=btn.closest(".review-card");
+      reviewPreview(card.dataset.id,btn.dataset.action);
+    };
+  });
+}
+async function loadReviews(){
+  el("reviewError").classList.add("hidden");
+  try{
+    var j=await authFetch(reviewApiUrl);
+    reviewItems=j.items||[];
+    renderReviews();
+  }catch(e){
+    el("reviewError").textContent="Could not load house previews: "+e.message;
+    el("reviewError").classList.remove("hidden");
+  }
+}
+async function reviewPreview(id,action){
+  var note=null;
+  if(action==="regenerate"&&!confirm("Generate a new AI preview for this house?"))return;
+  if(action==="reject"){
+    var entered=prompt("Optional note for why this preview was rejected:","");
+    if(entered===null)return;
+    note=entered;
+  }
+  var btns=document.querySelectorAll('.review-card[data-id="'+id+'"] button');
+  btns.forEach(function(b){b.disabled=true});
+  try{
+    await authFetch(reviewApiUrl,{method:"POST",body:JSON.stringify({quote_id:id,action:action,note:note})});
+    await loadReviews();
+    if(action==="regenerate"){
+      setTimeout(loadReviews,3000);
+    }
+  }catch(e){
+    alert("Could not "+action+" preview: "+e.message);
+    btns.forEach(function(b){b.disabled=false});
+  }
+}
+el("messagesTab").onclick=function(){setAdminTab("messages")};
+el("reviewsTab").onclick=function(){setAdminTab("reviews")};
+el("reviewRefresh").onclick=loadReviews;
+
+</script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="5cc07b9c-1770-4bc1-ae99-ea46984498da" data-app-host="app.netlify.com"></script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="5cc07b9c-1770-4bc1-ae99-ea46984498da" data-app-host="app.netlify.com"></script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="5cc07b9c-1770-4bc1-ae99-ea46984498da" data-app-host="app.netlify.com"></script>

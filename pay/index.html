@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102d22"><title>Maceda Lighting Payment</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 20% 0%,#2b5a44 0%,#102d22 48%,#091b14 100%);color:#19251f}
+.card{width:min(460px,100%);background:#fffdf9;border-radius:24px;padding:30px;box-shadow:0 28px 90px #0006;text-align:center}.mark{width:48px;height:48px;border-radius:14px;background:#173b2c;color:#eadbb8;display:grid;place-items:center;font-weight:950;margin:0 auto 16px}.title{font-size:23px;font-weight:950}.sub{font-size:13px;color:#758078;margin-top:7px;line-height:1.5}.spin{width:26px;height:26px;border:3px solid #ded7ca;border-top-color:#173b2c;border-radius:50%;margin:24px auto 8px;animation:s .7s linear infinite}@keyframes s{to{transform:rotate(360deg)}}.bad{color:#a6433d}.good{color:#2f7450}a{color:#173b2c;font-weight:850}
+</style></head><body><div class="card"><div class="mark">ML</div><div class="title">Maceda Lighting</div><div id="msg" class="sub">Opening your secure payment page…</div><div id="spin" class="spin"></div></div>
+<script>
+(async function(){
+ const msg=document.getElementById("msg"),spin=document.getElementById("spin");
+ const c=new URLSearchParams(location.search).get("c")||"";
+ if(!/^[a-f0-9]{12}$/i.test(c)){spin.style.display="none";msg.className="sub bad";msg.textContent="This payment link is invalid.";return}
+ try{
+   const r=await fetch("https://gidqdlcvyasqalitqvcn.supabase.co/functions/v1/payment-link-resolver?c="+encodeURIComponent(c));
+   const j=await r.json();
+   if(!r.ok)throw new Error(j.error||"Payment link unavailable");
+   if(j.status==="paid"){spin.style.display="none";msg.className="sub good";msg.textContent="Your deposit has already been received. Thank you!";return}
+   if(!j.url)throw new Error("Payment page is not ready.");
+   location.replace(j.url);
+ }catch(e){
+   spin.style.display="none";msg.className="sub bad";msg.innerHTML="We could not open this payment link. Please reply to your Maceda Lighting text for help.";
+ }
+})();
+</script></body></html>
