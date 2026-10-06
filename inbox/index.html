@@ -123,6 +123,11 @@ label{display:block;font-weight:800;font-size:12px;margin:14px 0 6px;color:#3f4b
 .thread-list,.messages{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .msg-row{flex-shrink:0}.composer{grid-template-columns:minmax(0,1fr) auto}.composer textarea{min-width:0}.chat-head>div{min-width:0;overflow-wrap:anywhere}
 @media(max-width:760px){.messages-layout{height:calc(100vh - 86px);height:calc(100dvh - 86px)}.search-wrap{min-width:0}.lm-tools label{flex-basis:100%}.toast-wrap{max-width:calc(100vw - 36px)}.toast{min-width:0}}
+/* Keep admin controls above Netlify's floating hosting badge when present. */
+html:has(#nl-badge-frame) #leadManager{padding-bottom:76px}
+html:has(#nl-badge-frame) #leadManager button{scroll-margin-bottom:80px}
+html:has(#nl-badge-frame) .messages-layout{height:calc(100vh - 180px);height:calc(100dvh - 180px)}
+@media(max-width:760px){html:has(#nl-badge-frame) .messages-layout{height:calc(100vh - 154px);height:calc(100dvh - 154px)}}
 </style>
 </head>
 <body>
