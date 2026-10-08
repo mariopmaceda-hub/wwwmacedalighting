@@ -79,3 +79,5 @@ input[type=checkbox]{accent-color:#0b452d}
 }
 @media(max-width:380px){.brand{font-size:10px}.nav-cta{font-size:10px;padding:10px}.hero h1{font-size:40px}.hero-actions .btn{font-size:11px;padding:13px 10px}.hero-panel{grid-template-columns:1fr 1fr}.hero-grid{gap:280px}.holiday-caption{bottom:350px}.process-grid{grid-template-columns:1fr}.section h2{font-size:36px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+/* Keep fixed customer actions clear of the hosting badge on small screens. */
+@media(max-width:720px){body{padding-bottom:142px}.mobilebar{bottom:70px}}
