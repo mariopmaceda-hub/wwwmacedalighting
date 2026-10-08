@@ -1,16 +1,18 @@
+import {retentionText} from "./order-lifecycle.js";
 // Lead mutations use the dashboard's authenticated request helper.
-export async function renderLeadManager(ctx, trash = false) {
+export async function renderLeadManager(ctx, view = "leads") {
+  const trash = view !== "leads", archived = view === "archive";
   const {el, esc, ops, authFetch, url, openDetail, navigate} = ctx;
   let page = 0, items = [], total = 0, selected = new Set();
   let loading = false, mutating = false, request = 0, timer;
   el('content').innerHTML = `
     <div id="leadManager">
-      <div class="section-head"><div><h2>${trash ? 'Trash' : 'Leads'}</h2><p>Website quote requests and customer intake.</p></div><button class="btn" id="lmRefresh">Refresh</button></div>
-      <div class="lm-actions" aria-label="Lead views"><button class="btn ${trash ? '' : 'btn-dark'}" id="lmActive" aria-pressed="${!trash}">Active leads</button><button class="btn ${trash ? 'btn-dark' : ''}" id="lmTrash" aria-pressed="${trash}">Trash</button></div>
-      <p class="lm-note">Delete moves leads to recoverable Trash. Linked records are retained. Payment and booking history can protect a lead from deletion.</p>
+      <div class="section-head"><div><h2>${archived ? 'Archive' : trash ? 'Trash' : 'Leads'}</h2><p>One shared Trash bin for leads, customers, and jobs. Archived records stay restorable.</p></div><button class="btn" id="lmRefresh">Refresh</button></div>
+      <div class="lm-actions" aria-label="Lead views"><button class="btn ${trash ? '' : 'btn-dark'}" id="lmActive" aria-pressed="${!trash}">Active leads</button><button class="btn ${view === 'trash' ? 'btn-dark' : ''}" id="lmTrash" aria-pressed="${view === 'trash'}">Trash</button><button class="btn ${archived ? 'btn-dark' : ''}" id="lmArchive" aria-pressed="${archived}">Archive</button></div>
+      <p class="lm-note">Light removal completion starts 30 days before Trash. After 15 days in Trash, records move to Archive. Customer details, orders, photos, messages and payment history are preserved. Restore works from either view.</p>
       <div class="lm-tools"><label>Search leads<input id="lmSearch" type="search" placeholder="Name, phone, email or address"></label><label>Status<select id="lmStatus"><option value="">All statuses</option></select></label><label>Record type<select id="lmKind"><option value="">All records</option><option value="unverified">Unverified</option><option value="real">Verified customers</option><option value="test">Verified tests</option></select></label></div>
       <div id="lmNotice" class="lm-note hidden" role="status" aria-live="polite" tabindex="-1"></div>
-      <div class="lm-actions"><label class="lm-select-all"><input id="lmAll" type="checkbox"> Select eligible on this page</label><button class="btn ${trash ? '' : 'btn-red'}" id="lmBulk" disabled>${trash ? 'Restore' : 'Delete'} selected</button><span id="lmCount" aria-live="polite"></span></div>
+      <div class="lm-actions"><label class="lm-select-all"><input id="lmAll" type="checkbox"> Select eligible on this page</label><button class="btn ${trash ? '' : 'btn-red'}" id="lmBulk" disabled>${trash ? 'Restore' : 'Move to Trash'} selected</button><span id="lmCount" aria-live="polite"></span></div>
       <div id="lmRows" class="lm-grid"></div>
       <div class="lm-actions"><button class="btn" id="lmPrev">Previous</button><span id="lmPage"></span><button class="btn" id="lmNext">Next</button></div>
     </div>`;
@@ -33,7 +35,7 @@ export async function renderLeadManager(ctx, trash = false) {
     el('lmPrev').disabled = busy || page === 0;
     el('lmNext').disabled = busy || (page + 1) * 50 >= total;
     el('lmPage').textContent = `Page ${page + 1} of ${Math.max(1, Math.ceil(total / 50))}`;
-    for (const id of ['lmRefresh', 'lmActive', 'lmTrash', 'lmSearch', 'lmStatus', 'lmKind']) el(id).disabled = mutating;
+    for (const id of ['lmRefresh', 'lmActive', 'lmTrash', 'lmArchive', 'lmSearch', 'lmStatus', 'lmKind']) el(id).disabled = mutating;
     root.querySelectorAll('[data-pick],[data-change]').forEach(n => {
       const q = items.find(q => q.id === (n.dataset.pick || n.dataset.change));
       n.disabled = busy || !eligible(q);
@@ -48,8 +50,9 @@ export async function renderLeadManager(ctx, trash = false) {
       <p>${esc(q.status || 'No status')} · ${esc(q.preview_status || 'No preview')}</p>
       <p class="lm-muted">${esc((q.services || []).join(', '))}<br>Submitted ${esc(new Date(q.created_at).toLocaleString())}</p>
       ${trash && q.lead_trashed_at ? `<p class="lm-muted">Trashed ${esc(new Date(q.lead_trashed_at).toLocaleString())}</p>` : ''}
+      <p class="lm-muted">${esc(retentionText(q))}</p>
       ${q.lead_protection_reason ? `<p class="lm-protected">Protected: ${esc(q.lead_protection_reason)}</p>` : ''}
-      <footer><button class="btn" data-open="${esc(q.id)}">View details</button><button class="btn ${trash ? '' : 'btn-red'}" data-change="${esc(q.id)}">${trash ? 'Restore' : 'Delete'}</button></footer></article>`).join('') : `<p class="lm-note">No matching ${trash ? 'trashed leads' : 'leads'}.</p>`;
+      <footer><button class="btn" data-open="${esc(q.id)}">View details</button><button class="btn ${trash ? '' : 'btn-red'}" data-change="${esc(q.id)}">${trash ? 'Restore' : 'Move to Trash'}</button></footer></article>`).join('') : `<p class="lm-note">No matching ${trash ? 'trashed leads' : 'leads'}.</p>`;
     root.querySelectorAll('[data-pick]').forEach(n => n.onchange = () => {n.checked ? selected.add(n.dataset.pick) : selected.delete(n.dataset.pick); controls();});
     root.querySelectorAll('[data-open]').forEach(n => n.onclick = () => openDetail(n.dataset.open));
     root.querySelectorAll('[data-change]').forEach(n => n.onclick = () => change([n.dataset.change]));
@@ -61,7 +64,7 @@ export async function renderLeadManager(ctx, trash = false) {
     loading = true; selected.clear(); controls();
     el('lmRows').innerHTML = '<p role="status">Loading leads…</p>';
     try {
-      const j = await ops(trash ? 'trash' : 'leads', {q: el('lmSearch').value.trim(), status: el('lmStatus').value, kind: el('lmKind').value, page});
+      const j = await ops(view, {q: el('lmSearch').value.trim(), status: el('lmStatus').value, kind: el('lmKind').value, page});
       if (!mounted() || seq !== request) return;
       items = j.items || []; total = j.count || 0;
       if (page > 0 && !items.length) {page = Math.max(0, Math.ceil(total / 50) - 1); return await load();}
@@ -71,6 +74,7 @@ export async function renderLeadManager(ctx, trash = false) {
       el('lmStatus').value = status;
       el('lmActive').textContent = `Active leads (${j.active_count ?? 0})`;
       el('lmTrash').textContent = `Trash (${j.trash_count ?? 0})`;
+      el('lmArchive').textContent = `Archive (${j.archive_count ?? 0})`;
       loading = false; draw();
     } catch (e) {
       if (!mounted() || seq !== request) return;
@@ -84,7 +88,7 @@ export async function renderLeadManager(ctx, trash = false) {
   async function change(ids) {
     if (loading || mutating || !ids.length) return;
     const name = ids.length === 1 ? items.find(q => q.id === ids[0])?.name || 'this lead' : `${ids.length} selected leads`;
-    if (!confirm(trash ? `Restore ${name} to active leads?` : `Move ${name} to Trash? You can restore it later. Linked records are retained.`)) return;
+    if (!confirm(trash ? `Restore ${name} to active records? Automatic archiving will be paused.` : `Move ${name} to Trash? After 15 days it moves to Archive. All records are kept and can still be restored. External bookings and transactions are unchanged.`)) return;
     clearTimeout(timer); mutating = true; controls();
     try {
       const j = await authFetch(url, {method: 'POST', body: JSON.stringify({action: trash ? 'restore_leads' : 'trash_leads', ids})});
@@ -100,6 +104,7 @@ export async function renderLeadManager(ctx, trash = false) {
   el('lmRefresh').onclick = () => {if (!mutating) load();};
   el('lmActive').onclick = () => navigate('leads');
   el('lmTrash').onclick = () => navigate('trash');
+  el('lmArchive').onclick = () => navigate('archive');
   el('lmPrev').onclick = () => {if (!loading && !mutating && page > 0) {page--; load();}};
   el('lmNext').onclick = () => {if (!loading && !mutating && (page + 1) * 50 < total) {page++; load();}};
   for (const id of ['lmStatus', 'lmKind']) el(id).onchange = () => {clearTimeout(timer); page = 0; load();};
