@@ -13,6 +13,7 @@ async function main(){
  CREATE TABLE private.admin_users(user_id uuid PRIMARY KEY);
  INSERT INTO private.admin_users VALUES('d1e2ff19-84fd-4aca-8e7d-0a6d8dc26666'),('a47b5dfb-f38c-4b2c-9867-0e5b8db7087b');
  CREATE FUNCTION private.is_admin(check_user uuid) RETURNS boolean LANGUAGE sql SECURITY DEFINER SET search_path='' AS $$SELECT EXISTS(SELECT 1 FROM private.admin_users WHERE user_id=check_user)$$;`);
+ await db.exec('REVOKE ALL ON FUNCTION private.is_admin(uuid) FROM PUBLIC;');
  for(const t of baseline.tables){
   for(const c of t.columns){const seq=c.default_value?.match(/nextval\('([^']+)'::regclass\)/);if(seq)await db.exec('CREATE SEQUENCE IF NOT EXISTS '+seq[1]);}
   const cols=t.columns.map(c=>quote(c.name)+' '+(c.data_type==='ARRAY'?c.format.slice(1)+'[]':c.format)+(c.identity_generation?' GENERATED '+c.identity_generation+' AS IDENTITY':c.default_value?' DEFAULT '+c.default_value:'')+(!c.options.includes('nullable')?' NOT NULL':'')+(c.options.includes('unique')?' UNIQUE':'')+(c.check?' CHECK('+c.check+')':''));

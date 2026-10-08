@@ -128,3 +128,4 @@ GRANT EXECUTE ON FUNCTION public.manage_leads(uuid[],text,uuid,text,text),public
 GRANT USAGE ON SCHEMA private TO service_role;
 REVOKE ALL ON public.admin_lead_records FROM PUBLIC,anon,authenticated;
 GRANT SELECT ON public.admin_lead_records TO service_role;
+GRANT EXECUTE ON FUNCTION private.is_admin(uuid) TO service_role;
