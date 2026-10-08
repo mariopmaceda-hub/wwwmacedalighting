@@ -80,9 +80,10 @@ let count=0;function check(value,message){assert(value,message);count++;}
  await Promise.all([page.waitForNavigation(),page.getByRole('button',{name:'Load example home'}).click()]);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready);await mode(A);
  for(const width of [360,390,768,1440]){await page.setViewportSize({width,height:900});await page.evaluate(()=>window.scrollTo(0,0));check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No horizontal overflow at '+width);await page.screenshot({path:path.join(out,'directions-'+width+'.png'),fullPage:true});}
  // Functions owned by Kevin and upload/quote behavior must be preserved.
- const cp=require('node:child_process'),before=cp.execFileSync('git',['show','HEAD:visualizer/visualizer.js'],{cwd:root,encoding:'utf8'}),after=fs.readFileSync(path.join(root,'visualizer/visualizer.js'),'utf8');
+ const baseline=process.env.VISUALIZER_BASE_REF||'ca1b84dd35cdb87184983c9b8006f83ca1033df5';
+ const cp=require('node:child_process'),before=cp.execFileSync('git',['show',baseline+':visualizer/visualizer.js'],{cwd:root,encoding:'utf8'}),after=fs.readFileSync(path.join(root,'visualizer/visualizer.js'),'utf8');
  for(const prefix of ['function draw(){','function svgEl(','function colors(){','async function upload(','function files(){',"$('quoteForm').onsubmit=", "$('contactForm').onsubmit="]){check(before.split(/\r?\n/).find(l=>l.startsWith(prefix))===after.split(/\r?\n/).find(l=>l.startsWith(prefix)),'Preserved '+prefix);}
- const oldHtml=cp.execFileSync('git',['show','HEAD:visualizer/index.html'],{cwd:root,encoding:'utf8'}),newHtml=fs.readFileSync(path.join(root,'visualizer/index.html'),'utf8');
+ const oldHtml=cp.execFileSync('git',['show',baseline+':visualizer/index.html'],{cwd:root,encoding:'utf8'}),newHtml=fs.readFileSync(path.join(root,'visualizer/index.html'),'utf8');
  check(oldHtml.match(/<label class="consent">.*?<\/label>/)[0]===newHtml.match(/<label class="consent">.*?<\/label>/)[0],'SMS consent unchanged');
  check(!directions.usable({confidence:.9,polyline:[[.1,.1],[.1,.1]]}),'Degenerate geometry rejected');
  check(external.length===0,'No external requests');check(errors.length===0,'No browser errors: '+errors.join('; '));
