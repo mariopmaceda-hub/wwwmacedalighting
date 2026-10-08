@@ -1,0 +1,1052 @@
+{
+  "tables": [
+    {
+      "name": "public.quotes",
+      "rls_enabled": true,
+      "rows": 19,
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "uuid",
+          "format": "uuid",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "gen_random_uuid()"
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ],
+          "default_value": "now()"
+        },
+        {
+          "name": "name",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "phone",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "email",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "address",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "property_type",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "services",
+          "data_type": "ARRAY",
+          "format": "_text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "owns_lights",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "message",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "photo_paths",
+          "data_type": "ARRAY",
+          "format": "_text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ],
+          "default_value": "'New Lead'::text"
+        },
+        {
+          "name": "sms_opt_in",
+          "data_type": "boolean",
+          "format": "bool",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "false"
+        },
+        {
+          "name": "sms_opt_in_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "'not_started'::text",
+          "check": "preview_status = ANY (ARRAY['not_started'::text, 'waiting_for_photo'::text, 'queued'::text, 'processing'::text, 'generated'::text, 'sent'::text, 'needs_review'::text, 'failed'::text])"
+        },
+        {
+          "name": "preview_source_photo_path",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_image_path",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_generated_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_sent_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_error",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_attempts",
+          "data_type": "integer",
+          "format": "int4",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "0"
+        },
+        {
+          "name": "preview_version",
+          "data_type": "integer",
+          "format": "int4",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "1"
+        },
+        {
+          "name": "selected_package",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ],
+          "check": "selected_package IS NULL OR (selected_package = ANY (ARRAY['basic'::text, 'standard'::text, 'full_display'::text]))"
+        },
+        {
+          "name": "selected_package_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_sms_sid",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_sms_status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "quote_amount",
+          "data_type": "numeric",
+          "format": "numeric",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "deposit_percent",
+          "data_type": "numeric",
+          "format": "numeric",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "0.50"
+        },
+        {
+          "name": "deposit_required",
+          "data_type": "numeric",
+          "format": "numeric",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "deposit_status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "'not_started'::text",
+          "check": "deposit_status = ANY (ARRAY['not_started'::text, 'awaiting_deposit'::text, 'paid'::text, 'failed'::text, 'refunded'::text])"
+        },
+        {
+          "name": "deposit_paid",
+          "data_type": "numeric",
+          "format": "numeric",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "0"
+        },
+        {
+          "name": "deposit_checkout_session_id",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "deposit_checkout_url",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "deposit_payment_intent_id",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "deposit_paid_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "scheduling_status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "'locked'::text",
+          "check": "scheduling_status = ANY (ARRAY['locked'::text, 'ready'::text, 'booked'::text, 'cancelled'::text])"
+        },
+        {
+          "name": "scheduling_ready_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "scheduling_override",
+          "data_type": "boolean",
+          "format": "bool",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "false"
+        },
+        {
+          "name": "booking_link",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "booking_link_sent_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "installation_start_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "cal_booking_uid",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "cal_booking_status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "cal_booking_start_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "cal_booking_end_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "cal_booking_updated_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "lead_ack_sent_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "lead_ack_sms_sid",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_reviewed_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_review_action",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_review_note",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "preview_delivery_status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ],
+          "default_value": "'not_sent'::text"
+        },
+        {
+          "name": "crew",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "job_status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "admin_notes",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "payment_short_code",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "deposit_link_sent_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "deposit_link_sms_sid",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "deposit_link_delivery_status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ],
+          "default_value": "'not_sent'::text"
+        },
+        {
+          "name": "visualizer_session_id",
+          "data_type": "uuid",
+          "format": "uuid",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_key_constraints": [
+        {
+          "name": "lead_followup_audit_quote_id_fkey",
+          "source_table": "public.lead_followup_audit",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "lead_followup_state_quote_id_fkey",
+          "source_table": "public.lead_followup_state",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "lead_management_audit_quote_id_fkey",
+          "source_table": "public.lead_management_audit",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "lead_management_quote_id_fkey",
+          "source_table": "public.lead_management",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "pe_refresh_queue_quote_id_fkey",
+          "source_table": "public.pe_refresh_queue",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "pe_payment_evidence_quote_id_fkey",
+          "source_table": "public.pe_payment_evidence",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "pe_designs_quote_id_fkey",
+          "source_table": "public.pe_designs",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "visualizer_sessions_lead_quote_id_fkey",
+          "source_table": "public.visualizer_sessions",
+          "source_columns": [
+            "lead_quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "quotes_visualizer_session_id_fkey",
+          "source_table": "public.quotes",
+          "source_columns": [
+            "visualizer_session_id"
+          ],
+          "target_table": "public.visualizer_sessions",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "preview_generation_attempts_quote_id_fkey",
+          "source_table": "public.preview_generation_attempts",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "preview_versions_quote_id_fkey",
+          "source_table": "public.preview_versions",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "deposit_link_send_claims_quote_id_fkey",
+          "source_table": "public.deposit_link_send_claims",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "preview_send_claims_quote_id_fkey",
+          "source_table": "public.preview_send_claims",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "sms_messages_quote_id_fkey",
+          "source_table": "public.sms_messages",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "public.lead_management",
+      "rls_enabled": true,
+      "rows": 15,
+      "columns": [
+        {
+          "name": "quote_id",
+          "data_type": "uuid",
+          "format": "uuid",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "trashed_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "classification",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "'unverified'::text",
+          "check": "classification = ANY (ARRAY['unverified'::text, 'test'::text, 'real'::text])"
+        },
+        {
+          "name": "evidence",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "changed_by",
+          "data_type": "uuid",
+          "format": "uuid",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "changed_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "now()"
+        }
+      ],
+      "primary_keys": [
+        "quote_id"
+      ],
+      "foreign_key_constraints": [
+        {
+          "name": "lead_management_quote_id_fkey",
+          "source_table": "public.lead_management",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "public.lead_management_audit",
+      "rls_enabled": true,
+      "rows": 30,
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "format": "int8",
+          "options": [
+            "identity",
+            "updatable"
+          ],
+          "identity_generation": "ALWAYS"
+        },
+        {
+          "name": "quote_id",
+          "data_type": "uuid",
+          "format": "uuid",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "action",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "actor",
+          "data_type": "uuid",
+          "format": "uuid",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "now()"
+        },
+        {
+          "name": "before_state",
+          "data_type": "jsonb",
+          "format": "jsonb",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "after_state",
+          "data_type": "jsonb",
+          "format": "jsonb",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_key_constraints": [
+        {
+          "name": "lead_management_audit_quote_id_fkey",
+          "source_table": "public.lead_management_audit",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "public.lead_followup_state",
+      "rls_enabled": true,
+      "rows": 1,
+      "columns": [
+        {
+          "name": "quote_id",
+          "data_type": "uuid",
+          "format": "uuid",
+          "options": [
+            "updatable"
+          ]
+        },
+        {
+          "name": "enrolled_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "now()"
+        },
+        {
+          "name": "initial_response_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "initial_response_message_id",
+          "data_type": "uuid",
+          "format": "uuid",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "followups_sent",
+          "data_type": "integer",
+          "format": "int4",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "0",
+          "check": "followups_sent >= 0 AND followups_sent <= 3"
+        },
+        {
+          "name": "next_followup_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "status",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "'awaiting_personalized_response'::text",
+          "check": "status = ANY (ARRAY['awaiting_personalized_response'::text, 'waiting_for_consent'::text, 'scheduled'::text, 'customer_replied'::text, 'human_owned'::text, 'handed_off'::text, 'closed'::text, 'test_spam'::text, 'hold'::text, 'error'::text])"
+        },
+        {
+          "name": "last_inbound_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "last_human_outbound_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "last_automated_followup_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "manual_hold",
+          "data_type": "boolean",
+          "format": "bool",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "false"
+        },
+        {
+          "name": "closed_reason",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "last_error",
+          "data_type": "text",
+          "format": "text",
+          "options": [
+            "nullable",
+            "updatable"
+          ]
+        },
+        {
+          "name": "updated_at",
+          "data_type": "timestamp with time zone",
+          "format": "timestamptz",
+          "options": [
+            "updatable"
+          ],
+          "default_value": "now()"
+        }
+      ],
+      "primary_keys": [
+        "quote_id"
+      ],
+      "foreign_key_constraints": [
+        {
+          "name": "lead_followup_state_quote_id_fkey",
+          "source_table": "public.lead_followup_state",
+          "source_columns": [
+            "quote_id"
+          ],
+          "target_table": "public.quotes",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "lead_followup_state_initial_response_message_id_fkey",
+          "source_table": "public.lead_followup_state",
+          "source_columns": [
+            "initial_response_message_id"
+          ],
+          "target_table": "public.sms_messages",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ]
+    }
+  ],
+  "fks": [
+    {
+      "table_name": "lead_management",
+      "conname": "lead_management_quote_id_fkey",
+      "definition": "FOREIGN KEY (quote_id) REFERENCES quotes(id)"
+    },
+    {
+      "table_name": "lead_management_audit",
+      "conname": "lead_management_audit_quote_id_fkey",
+      "definition": "FOREIGN KEY (quote_id) REFERENCES quotes(id)"
+    },
+    {
+      "table_name": "lead_followup_state",
+      "conname": "lead_followup_state_quote_id_fkey",
+      "definition": "FOREIGN KEY (quote_id) REFERENCES quotes(id) ON DELETE CASCADE"
+    }
+  ]
+}
