@@ -1,0 +1,32 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const {PGlite}=require(process.env.PGLITE_MODULE||'@electric-sql/pglite');
+(async()=>{
+ const db=new PGlite();
+ await db.exec('create role anon; create role authenticated; create role service_role; create schema storage; create table storage.objects(bucket_id text,name text);');
+ const tables=JSON.parse(fs.readFileSync('tests/schema-fixture.json')).tables;
+ const q=tables.find(t=>t.name==='public.quotes');
+ const cols=q.columns.map(c=>'"'+c.name+'" '+(c.data_type==='ARRAY'?c.format.slice(1)+'[]':c.format));
+ await db.exec('create table quotes('+cols.join(',')+');');
+ const schema=JSON.parse(fs.readFileSync('tests/visualizer-schema-columns.json'));
+ for(const table of new Set(schema.map(c=>c.table_name)))await db.exec('create table '+table+'('+schema.filter(c=>c.table_name===table).map(c=>c.column_name+' '+(c.data_type==='ARRAY'?c.udt_name.slice(1)+'[]':c.udt_name)+(c.column_default?' default '+c.column_default:'')+(c.is_nullable==='NO'?' not null':'')).join(',')+');');
+ await db.exec(fs.readFileSync('docs/proposals/visualizer-atomic-handoff.sql','utf8'));
+ await db.exec("create table test_notifications(id integer generated always as identity); create function test_ack() returns trigger language plpgsql as 'begin insert into test_notifications default values; return new; end'; create trigger test_ack after update of sms_opt_in on quotes for each row when (new.sms_opt_in=true) execute function test_ack();");
+ const sid='10000000-0000-0000-0000-000000000001',rid='20000000-0000-0000-0000-000000000001',qid='30000000-0000-0000-0000-000000000001',dest=qid+'/visualizer-'+rid+'.png';
+ await db.query("insert into visualizer_sessions(id,session_token_hash,status,design_revision,current_render_id) values($1,'TEST','render_ready',1,$2)",[sid,rid]);
+ await db.query("insert into visualizer_renders(id,session_id,stage,design_spec) values($1,$2,'ready',$3)",[rid,sid,JSON.stringify({contract_version:'maceda-concept/1',renderer:'deterministic-v1',design_revision:1,source_photo_path:'TEST/photo.jpg'})]);
+ await db.query('insert into quotes(id,visualizer_session_id) values($1,$2)',[qid,sid]);
+ const contact={name:'TEST ONLY',email:'test@example.invalid',phone:'0000000000',address:'TEST',sms_opt_in:true};
+ const submit=()=>db.query('select finalize_visualizer_quote($1,$2,$3,$4) as result',[sid,rid,dest,JSON.stringify(contact)]);
+ await assert.rejects(submit,/transfer incomplete/);
+ assert.equal((await db.query('select count(*)::int as n from preview_versions')).rows[0].n,0);
+ await db.query("insert into storage.objects values('quote-previews',$1)",[dest]);
+ await db.query('update visualizer_sessions set design_revision=2');await assert.rejects(submit,/Design changed/);
+ await db.query('update visualizer_sessions set design_revision=1');
+ assert.equal((await submit()).rows[0].result.preview_attached,true);
+ await submit();await submit();assert.equal((await db.query('select count(*)::int as n from preview_versions')).rows[0].n,1);
+ assert.equal((await db.query('select count(*)::int as n from quotes')).rows[0].n,1);
+ const access=await db.query("select has_function_privilege('anon','public.finalize_visualizer_quote(uuid,uuid,text,jsonb)','execute') as anon, has_function_privilege('authenticated','public.finalize_visualizer_quote(uuid,uuid,text,jsonb)','execute') as authenticated");
+ assert.deepEqual(access.rows[0],{anon:false,authenticated:false});assert.equal((await db.query('select count(*)::int as n from test_notifications')).rows[0].n,1);
+ console.log('PASS: missing artifact and stale revision rejected; handoff committed; retries return one quote/preview; public access denied. Isolated local database only.');await db.close();
+})().catch(e=>{console.error(e);process.exitCode=1});
+
