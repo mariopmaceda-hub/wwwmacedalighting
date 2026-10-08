@@ -1,0 +1,81 @@
+/* Maceda Christmas theme, inspired by the team's yard sign and door hanger. */
+:root{--forest:#041e13;--forest2:#073522;--forest3:#12472c;--ivory:#fff7df;--paper:#fffcf2;--gold:#d9ae4d;--gold2:#ffdf87;--red:#a30d16;--line:#dfce9e}
+html{scroll-padding-top:95px}
+body{background:#041e13}
+.nav{background:rgba(2,25,15,.97);border-bottom:1px solid #bd923c;box-shadow:0 3px 24px #0005}
+.brand{color:#ffe29b;letter-spacing:.1em}
+.brandmark{border-color:#d9ae4d;color:#ffe9ae;box-shadow:0 0 16px #ffca6030}
+.nav-cta,.btn{border:1px solid #edc771;border-radius:8px;background:linear-gradient(180deg,#bd1820,#81060d);color:#fff7dc;box-shadow:0 3px 0 #490408,0 8px 25px #0002;letter-spacing:.03em}
+.nav-cta{color:#fff5d5}
+.btn.gold{background:linear-gradient(180deg,#ffecab,#e2b756);color:#173021;border-color:#ffedb2;box-shadow:0 3px 0 #967128,0 7px 25px #ffce4b15}
+.btn.ghost{background:#031c16d9;border:1px solid #d7b56d;color:#fff3d4}
+.btn:hover,.nav-cta:hover{filter:brightness(1.12);transform:translateY(-2px)}
+.btn:disabled{transform:none;filter:none;opacity:.7;cursor:wait}
+.hero{min-height:1100px;background-color:#02130f;background-image:linear-gradient(180deg,rgba(0,18,12,.22),transparent 38%,transparent 76%,#031c12 91%),url('/assets/christmas-magic.svg');background-size:100% 100%,cover;background-position:center,center bottom 110px;background-repeat:no-repeat;border-bottom:1px solid #b88c38}
+.hero:before{inset:0;opacity:.7;pointer-events:none;background:radial-gradient(ellipse at 50% 15%,#021912a6,transparent 46%)}
+.hero:after{display:none}
+.hero-grid{min-height:1100px;display:flex;flex-direction:column;justify-content:space-between;gap:360px;padding:53px 6% 26px;text-align:center}
+.hero-grid>div{max-width:1040px;margin:0 auto}
+.hero .eyebrow{font-size:12px;color:#ffe6a2;letter-spacing:.25em;text-shadow:0 2px 9px #000}
+.hero h1{font-size:clamp(44px,5.6vw,78px);line-height:1.06;letter-spacing:-.035em;font-weight:600;max-width:950px;margin:19px auto 20px;color:#ffe6a3;text-shadow:0 2px 0 #795a24,0 5px 22px #000,0 0 34px #f8b82725;text-wrap:balance}
+.hero-copy{font-size:17px;line-height:1.65;max-width:680px;margin:0 auto;color:#fff9e8;text-shadow:0 2px 6px #000,0 0 12px #000}
+.hero-actions{justify-content:center;margin-top:26px;gap:12px}
+.hero-note{color:#fff2d4;margin-top:19px;font-size:13px;text-shadow:0 2px 5px #000}
+.hero-panel{width:100%;max-width:1180px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:22px 18px 18px;border:1px solid #d5ad5880;border-radius:12px;background:linear-gradient(130deg,#073322f2,#021c14f5);box-shadow:0 0 40px #f6b8420e,0 12px 35px #0004;text-align:left;backdrop-filter:blur(10px)}
+.hero-panel:before{display:none}
+.panel-label{grid-column:1/-1;text-align:center;font-size:23px;color:#ffe6a3;margin-bottom:15px}
+.panel-row,.panel-row:first-of-type{padding:10px 18px;font-size:13px;line-height:1.55;border-top:0;border-right:1px solid #d5ad583d;color:#dce9dd}
+.panel-row:last-child{border-right:0}
+.panel-row:before{display:none}
+.panel-row strong{color:#fff0be;font-size:14px}
+.holiday-caption{position:absolute;right:6%;bottom:205px;z-index:3;color:#f7ecd4;background:#00190fbd;border:1px solid #d7b56d66;border-radius:4px;padding:4px 8px;font-size:10px;letter-spacing:.02em}
+.trustbar{background:linear-gradient(90deg,#f9ebc3,#fff9e7,#f9ebc3);border-bottom:2px solid #bb903d}
+.trustitem{color:#153b26;border-color:#d2b567}
+.section{padding-top:84px;padding-bottom:84px}
+.section h2{font-weight:500;text-wrap:balance}
+.statement{background:radial-gradient(ellipse at 5% 5%,#f3daa460,transparent 55%),#fff9e9}
+.statement .eyebrow,.services .eyebrow,#work .eyebrow,.quote-section .eyebrow{color:#92151b!important}
+.principle b{color:#15452c}
+.viz-teaser{position:relative;background:radial-gradient(ellipse at top right,#35532155,transparent 50%),linear-gradient(110deg,#021b12,#0d3824);border-top:1px solid #e3bd5c75;border-bottom:1px solid #e3bd5c75}
+.viz-teaser h2,.process .section-head h2{color:#ffe6a3!important}
+.viz-teaser .eyebrow,.process .eyebrow{color:#ffdf87}
+.services{background:linear-gradient(135deg,#fff9e7,#f2e5c4)}
+.service{position:relative;overflow:hidden;border:1px solid #c49b45;border-radius:12px;background:linear-gradient(135deg,#fffdf4,#fff3d4);box-shadow:0 10px 24px #4d310d0a}
+.service:before{content:'✦';position:absolute;right:25px;top:23px;color:#bb8b26;font-size:28px}
+.service-num{color:#8b1018;letter-spacing:.12em}
+.service h3{color:#103c25}
+.service p{color:#52604d}
+.process{background:radial-gradient(ellipse at 0 0,#38603644,transparent 45%),radial-gradient(ellipse at 100% 100%,#9a791821,transparent 50%),#032317;border-top:1px solid #b98c3d;border-bottom:1px solid #b98c3d}
+.process-grid{gap:16px;border:0}
+.process-step{border:1px solid #e6bd5a6e!important;border-radius:10px;background:linear-gradient(150deg,#12432d,#062319);padding:26px 22px}
+.stepnum{width:56px;height:56px;display:grid;place-items:center;font-size:29px;border:1px solid #ebc569;border-radius:50%;background:linear-gradient(145deg,#bd1620,#740710);color:#fff3bb;opacity:1;box-shadow:0 0 20px #ecb94810}
+.process-step h3{color:#ffe9b0}
+#work{background:#fffaeb}
+.portfolio-empty{border:1px solid #d3a64c;border-radius:12px;background:linear-gradient(130deg,#06281a,#0f3c27)}
+.portfolio-empty h3{color:#ffe6a3}
+.project{border-radius:12px;border-color:#d0ad62}
+.quote-section{background:radial-gradient(ellipse at 0 50%,#efd39140,transparent 50%),#fff7e3}
+.form{border:1px solid #cfa448;border-radius:14px;box-shadow:0 20px 60px #87642b15;background:#fffdf5;border-top:4px solid #a5141a}
+.form h3{color:#163e28}
+input,select,textarea{border-color:#d5c8a6;background:#fffefb;border-radius:8px}
+.checks label{border-radius:8px;border-color:#ded1af}
+input[type=checkbox]{accent-color:#0b452d}
+.footer{border-top:2px solid #a77b2e;background:radial-gradient(ellipse at 50% 100%,#31502055,transparent 65%),#021e13}
+.footer-title{color:#ffe6a3}.footer-small{color:#b6c7b9}
+.mobilebar{background:#041e13f5;border-color:#cfa74e}
+@media(min-width:1600px){.hero{background-size:100% 100%,100% auto;min-height:1200px}.hero-grid{min-height:1200px}}
+@media(max-width:1100px){.nav{gap:14px;padding-left:4%;padding-right:4%}.navlinks{gap:15px}.navlinks>a[href^="tel"]{display:none}.hero{background-size:100% 100%,auto 950px}.hero-grid{gap:340px}.hero h1{max-width:800px;font-size:65px}.hero-panel{max-width:100%}.holiday-caption{bottom:220px}}
+@media(max-width:980px){.hero h1{font-size:59px}.hero-panel{grid-template-columns:repeat(2,1fr)}.panel-row:nth-of-type(2){border-right:0}.panel-row:nth-of-type(n+3){border-top:1px solid #d5ad583d}.hero-grid{min-height:1140px;gap:350px}.hero{background-position:center,center bottom 150px;min-height:1140px}.holiday-caption{bottom:285px}}
+@media(max-width:720px){
+ html{scroll-padding-top:82px}
+ .nav{padding:12px 5%;gap:8px}.brand{font-size:11px;letter-spacing:.07em;gap:7px}.brandmark{width:24px;height:24px;flex-shrink:0}.nav-cta{font-size:11px;padding:10px 12px;white-space:nowrap}
+ .hero{min-height:0;background-image:linear-gradient(180deg,#03190d 0%,#03190df5 18%,#03190d66 43%,transparent 55%,#031c1299 74%,#031c12 87%),url('/assets/christmas-magic.svg');background-size:100% 100%,auto 650px;background-position:center,center 335px}
+ .hero:before{height:100px;opacity:.85;background:url('/assets/christmas-magic.svg') center top/100% auto no-repeat;mask-image:linear-gradient(#000 35%,transparent);pointer-events:none}
+ .hero-grid{min-height:1130px;padding:44px 5% 24px;gap:310px}
+ .hero .eyebrow{font-size:10px;letter-spacing:.16em}.hero h1{font-size:45px;max-width:580px;line-height:1.08;margin:15px auto 18px}.hero-copy{font-size:15px;line-height:1.65;max-width:480px}.hero-actions{gap:10px;margin-top:23px}.hero-actions .btn{font-size:12px;padding:13px 14px}.hero-actions .btn.ghost{flex-basis:100%;max-width:330px}.hero-note{font-size:12px;margin-top:18px}
+ .hero-panel{padding:18px 10px 12px;border-radius:10px}.panel-label{font-size:21px;margin-bottom:9px}.panel-row,.panel-row:first-of-type{font-size:12px;padding:12px 10px}.panel-row strong{font-size:13px}
+ .holiday-caption{bottom:326px;right:5%;font-size:9px}
+ .section{padding:60px 6%}.section h2{font-size:40px;line-height:1.08}.service{padding:25px;min-height:240px}.service h3{font-size:31px}.process-grid{grid-template-columns:1fr 1fr;gap:10px}.process-step{padding:20px 16px}.process-step h3{font-size:24px;line-height:1.15;margin:18px 0 10px}.process-step p{font-size:14px}.trustitem{font-size:10px;padding:16px 9px}.form{padding:23px}.footer{padding-bottom:105px}.mobilebar{padding:9px 10px calc(9px + env(safe-area-inset-bottom))}
+}
+@media(max-width:380px){.brand{font-size:10px}.nav-cta{font-size:10px;padding:10px}.hero h1{font-size:40px}.hero-actions .btn{font-size:11px;padding:13px 10px}.hero-panel{grid-template-columns:1fr 1fr}.hero-grid{gap:280px}.holiday-caption{bottom:350px}.process-grid{grid-template-columns:1fr}.section h2{font-size:36px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
