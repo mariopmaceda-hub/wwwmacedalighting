@@ -325,6 +325,7 @@ textarea{min-height:125px;resize:vertical}
 
 <div class="mobilebar"><a class="btn gold" href="tel:+13234807447">CALL / TEXT</a><a class="btn" href="#quote">FREE QUOTE</a></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/marketing-attribution.js"></script>
 <script>
 const SUPABASE_URL = 'https://gidqdlcvyasqalitqvcn.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Hc3SF2Vo6_pgvP8WlRY_5g_0f-uw1VR';
@@ -430,7 +431,8 @@ quoteForm.addEventListener('submit', async (event) => {
       status: 'New Lead',
       sms_opt_in: true,
       sms_opt_in_at: new Date().toISOString(),
-      preview_status: 'queued'
+      preview_status: 'queued',
+      marketing_attribution: window.MacedaAttribution?.get() || null
     });
     if (error) throw error;
 
