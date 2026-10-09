@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<meta name="google-site-verification" content="gxFs8m2aCbIENverSJbY8QfTjJkDBWKfJuNrEKznuuY" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Maceda Lighting | Premium Christmas Light Installation</title>
@@ -160,6 +161,8 @@ textarea{min-height:125px;resize:vertical}
 </style>
 <link rel="preload" as="image" href="/assets/christmas-magic.svg">
 <link rel="stylesheet" href="/assets/christmas-theme.css">
+<link rel="stylesheet" href="/assets/analytics.css">
+<script src="/assets/analytics.js" defer></script>
 </head>
 <body>
 <nav class="nav" aria-label="Main navigation">
@@ -268,7 +271,7 @@ textarea{min-height:125px;resize:vertical}
       </div>
     </div>
 
-    <form id="quoteForm" class="form">
+    <form data-clarity-mask="true" id="quoteForm" class="form">
       <h3>Request my free quote</h3>
       <p class="form-sub">A clear front photo helps us prepare a more accurate custom preview.</p>
 
@@ -387,6 +390,7 @@ async function loadPortfolio() {
 }
 loadPortfolio();
 
+let pendingQuoteId=null;
 quoteForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   submitBtn.disabled = true;
@@ -418,7 +422,10 @@ quoteForm.addEventListener('submit', async (event) => {
     const smsOptIn = document.getElementById('smsOptIn').checked;
     if (!smsOptIn) throw new Error('Please confirm the text-message consent box so we can send your custom preview and quote updates.');
 
+    pendingQuoteId=pendingQuoteId||crypto.randomUUID();
     const { error } = await supabaseClient.from('quotes').insert({
+      id:pendingQuoteId,
+      marketing_attribution:window.MLAnalytics?.attribution()||null,
       name: document.getElementById('name').value.trim(),
       phone: document.getElementById('phone').value.trim(),
       email: document.getElementById('email').value.trim(),
@@ -434,6 +441,8 @@ quoteForm.addEventListener('submit', async (event) => {
     });
     if (error) throw error;
 
+    try{window.MLAnalytics?.lead(pendingQuoteId,'homepage')}catch{}
+    pendingQuoteId=null;
     quoteForm.reset();
     photoPreview.innerHTML = '';
     showStatus('Thank you! Your request was sent. We’ll create a custom 3-option lighting preview from your property photo and text it to you when it’s ready.', true);
