@@ -1,0 +1,506 @@
+[
+  {
+    "table_name": "preview_versions",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "column_default": "gen_random_uuid()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "quote_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "column_default": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "version",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "column_default": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "source_photo_path",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "image_path",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "stage",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": "'queued'::text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "regeneration_note",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "pin_annotations",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'[]'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "error",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": "now()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "started_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "generated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "stage_updated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": "now()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "reviewed_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "review_action",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "delivery_status",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": "'not_sent'::text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "twilio_sid",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "metadata",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "source_analysis_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "design_spec",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "retry_count",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "column_default": "0",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "validation_result",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "failure_reasons",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'[]'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "final_attempt_no",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "preview_versions",
+    "column_name": "quality_status",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": "'legacy'::text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "column_default": "gen_random_uuid()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "session_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "column_default": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "version",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "column_default": "1",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "stage",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": "'queued'::text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "image_path",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "design_spec",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "attempt_no",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "column_default": "0",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "retry_count",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "column_default": "0",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "validation_result",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "failure_reasons",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'[]'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "error",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": "now()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "started_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "generated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_renders",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": "now()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "column_default": "gen_random_uuid()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "session_token_hash",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": "'draft'::text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "mode",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "source_photo_path",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "additional_photo_paths",
+    "data_type": "ARRAY",
+    "udt_name": "_text",
+    "column_default": "'{}'::text[]",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "photo_analysis",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "architecture_lock",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "install_zones",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'[]'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "preset",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "color_style",
+    "data_type": "text",
+    "udt_name": "text",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "selected_zones",
+    "data_type": "ARRAY",
+    "udt_name": "_text",
+    "column_default": "'{}'::text[]",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "selected_decorations",
+    "data_type": "ARRAY",
+    "udt_name": "_text",
+    "column_default": "'{}'::text[]",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "selections",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "current_render_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": "now()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": "now()",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "expires_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "column_default": "(now() + '14 days'::interval)",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "contact_profile",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "lead_quote_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "column_default": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "photo_views",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "scale_calibration",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "column_default": "'{}'::jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "visualizer_sessions",
+    "column_name": "design_revision",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "column_default": "0",
+    "is_nullable": "NO"
+  }
+]

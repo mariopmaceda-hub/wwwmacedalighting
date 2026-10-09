@@ -31,7 +31,7 @@
       case 'save_design':Object.assign(state,{mode:b.mode,preset:b.preset,color_style:b.color_style,selected_zones:b.selected_zones,selected_decorations:b.selected_decorations,selections:b.selections,design_revision:state.design_revision+1,render:null,status:'ready_to_design'});save();break;
       case 'start_render':started++;state.render={id:'review-render-'+started,stage:'queued',version:started};save();break;
       case 'continue_render':state.render={...state.render,stage:'ready',image_url:state.front_url};state.status='render_ready';save();break;
-      case 'create_quote':state.status='converted_to_quote';save();result={ok:true,quote_id:'review-only-no-quote-sent'};break;
+      case 'create_quote':state.status='converted_to_quote';save();result={ok:true,quote_id:'review-only-no-quote-sent',status:'submitted',preview_attached:true};break;
       default:return new Response(JSON.stringify({ok:false,error:'Unsupported review action'}),{status:400});
     }
     return new Response(JSON.stringify(result),{headers:{'content-type':'application/json'}});

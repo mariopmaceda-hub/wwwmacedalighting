@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {compositeRGBA} from '../supabase/functions/_shared/compositor.mjs';
+const design={color_style:'Warm White',selected_zones:['roof'],install_zones:[{id:'roof',polyline:[[.1,.3],[.5,.1],[.9,.35]]}],selections:{placements:[]},catalog:[]};
+for(const [name,w,h] of [['landscape',600,400],['portrait',360,640],['angled',390,300]])test(name+': preserves every pixel outside lighting layers and source bytes',()=>{const source=Uint8Array.from({length:w*h*4},(_,i)=>i%4===3?255:i%239);const before=new Uint8Array(source);const a=compositeRGBA(source,w,h,design),b=compositeRGBA(source,w,h,design);assert.deepEqual(source,before);assert.deepEqual(a.pixels,b.pixels);assert.ok(a.touched.some(Boolean));for(let i=0;i<a.touched.length;i++)if(!a.touched[i])assert.deepEqual(a.pixels.subarray(i*4,i*4+4),source.subarray(i*4,i*4+4));});
+test('explicit obstruction mask protects original pixels inside obstruction',()=>{const w=400,h=300,source=new Uint8Array(w*h*4).fill(110);const d=structuredClone(design);d.install_zones[0].occlusion_masks=[[[.4,0],[.6,0],[.6,1],[.4,1]]];const a=compositeRGBA(source,w,h,d);for(let y=0;y<h;y++)for(let x=160;x<240;x++)assert.equal(a.touched[y*w+x],0);});

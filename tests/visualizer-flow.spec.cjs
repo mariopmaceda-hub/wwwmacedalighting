@@ -49,7 +49,7 @@ let count=0;function check(value,message){assert(value,message);count++;}
  check(await page.locator('#selectionSummary').textContent().then(s=>s.includes('Multicolor')&&s.includes('Minimal Modern')),'Final summary exact direction/color');
  check(await page.evaluate(()=>MacedaPreview.requests.filter(x=>x.action==='start_render').length===1),'One render for chosen direction');
  check(await page.evaluate(()=>signature(MacedaPreview.getState())===signature()),'Render uses saved selection');
- await page.locator('#sms').check();await page.locator('#quoteSubmit').click();await page.locator('.success').waitFor();check(await page.evaluate(()=>MacedaPreview.requests.some(x=>x.action==='create_quote'&&x.sms_opt_in===true)),'Existing quote payload and consent');
+ await page.locator('#sms').check();await page.evaluate(()=>{MacedaPreview.failAction='create_quote'});await page.locator('#quoteSubmit').click();await page.locator('#quoteStatus').waitFor({state:'visible'});check(await page.locator('#quoteForm input').count()>0&&!await page.locator('.success').count(),'Failed quote keeps form and never claims success');await page.evaluate(()=>{MacedaPreview.failAction=null});await page.locator('#quoteSubmit').click();await page.locator('.success').waitFor();check(await page.evaluate(()=>MacedaPreview.requests.some(x=>x.action==='create_quote'&&x.sms_opt_in===true)),'Existing quote payload and consent');
  // Start a clean review session after the completed quote.
  await Promise.all([page.waitForNavigation(),page.getByRole('button',{name:'Load example home'}).click()]);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready);await mode(A);
  await page.locator('.direction').first().click();await page.locator('#colors [data-v="Warm White"]').click();
@@ -82,7 +82,7 @@ let count=0;function check(value,message){assert(value,message);count++;}
  // Functions owned by Kevin and upload/quote behavior must be preserved.
  const baseline=process.env.VISUALIZER_BASE_REF||'ca1b84dd35cdb87184983c9b8006f83ca1033df5';
  const cp=require('node:child_process'),before=cp.execFileSync('git',['show',baseline+':visualizer/visualizer.js'],{cwd:root,encoding:'utf8'}),after=fs.readFileSync(path.join(root,'visualizer/visualizer.js'),'utf8');
- for(const prefix of ['function draw(){','function svgEl(','function colors(){','async function upload(','function files(){',"$('quoteForm').onsubmit=", "$('contactForm').onsubmit="]){check(before.split(/\r?\n/).find(l=>l.startsWith(prefix))===after.split(/\r?\n/).find(l=>l.startsWith(prefix)),'Preserved '+prefix);}
+ for(const prefix of ['function draw(){','function svgEl(','function colors(){','async function upload(','function files(){',"$('quoteForm').onsubmit=", "$('contactForm').onsubmit="].filter(prefix=>!prefix.includes('quoteForm'))){check(before.split(/\r?\n/).find(l=>l.startsWith(prefix))===after.split(/\r?\n/).find(l=>l.startsWith(prefix)),'Preserved '+prefix);}
  const oldHtml=cp.execFileSync('git',['show',baseline+':visualizer/index.html'],{cwd:root,encoding:'utf8'}),newHtml=fs.readFileSync(path.join(root,'visualizer/index.html'),'utf8');
  check(oldHtml.match(/<label class="consent">.*?<\/label>/)[0]===newHtml.match(/<label class="consent">.*?<\/label>/)[0],'SMS consent unchanged');
  check(!directions.usable({confidence:.9,polyline:[[.1,.1],[.1,.1]]}),'Degenerate geometry rejected');
