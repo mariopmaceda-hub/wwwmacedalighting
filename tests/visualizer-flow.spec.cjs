@@ -14,7 +14,7 @@ let count=0;function check(value,message){assert(value,message);count++;}
    if(u.hostname==='localhost'){
      const file=path.join(root,u.pathname.endsWith('/')?u.pathname+'index.html':u.pathname);
      if(!fs.existsSync(file))return route.fulfill({status:404,body:'Not found'});
-     return route.fulfill({contentType:file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html',body:fs.readFileSync(file)});
+     return route.fulfill({contentType:/\.m?js$/.test(file)?'text/javascript':file.endsWith('.css')?'text/css':'text/html',body:fs.readFileSync(file)});
    }
    if(u.hostname==='cdn.jsdelivr.net')return route.fulfill({contentType:'text/javascript',body:'window.supabase={createClient:()=>{throw Error("Live client must never be used in preview")}};'});
    external.push(u.href);return route.abort();
@@ -32,8 +32,8 @@ let count=0;function check(value,message){assert(value,message);count++;}
  fs.mkdirSync(out,{recursive:true});await page.screenshot({path:path.join(out,'directions-desktop.png'),fullPage:true});
  await page.locator('.direction').nth(1).click();check(await page.locator('#render').isDisabled(),'Explicit color required');check(await page.locator('[data-diy]:visible').count()===0,'Maceda hides DIY controls');
  await page.locator('#colors [data-v="Red + White"]').click();check(await page.locator('#render').isEnabled(),'Color enables render');
- await mode(B);check(await page.locator('#designStep').isVisible(),'B shows builder');check(await page.locator('[data-diy]:visible').count()===3,'DIY retains all controls');
- await page.locator('#zones [data-v="windows"]').click();await mode(A);
+ await mode(B);check(await page.locator('#designStep').isVisible(),'B shows builder');check(await page.locator('[data-diy]:not(.hidden)').count()===3,'DIY retains all controls');
+ await page.getByRole('button',{name:'Lights',exact:true}).click();await page.locator('#zones [data-v="windows"]').click();await mode(A);
  check(await page.locator('#directionsStep').isVisible(),'B-A returns to concepts');check(await page.evaluate(()=>S.zones.length===0&&!directionChosen&&!colorChosen),'B-A clears design');
  await mode(B);check(await page.locator('#designStep').isVisible(),'A-B-A-B ends in DIY');
  check(JSON.stringify(await page.evaluate(()=>({contact:S.s.contact_profile,photo:S.s.front_url,zones:S.s.install_zones})))===JSON.stringify(original),'Contact/photo/analysis preserved');
