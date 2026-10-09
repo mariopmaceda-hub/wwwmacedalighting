@@ -64,6 +64,12 @@ function usableZone(z) {
   if (!z) return false;
   return validateDesign({ source_photo_path: 'validation-only', design_revision: 0, install_zones: [z], selected_zones: [z.id], selections: { placements: [] } }, []).valid;
 }
+function validationMessage(result) {
+  if (!S.zones.length && !S.placements.length) return 'Choose at least one lighting area or decoration.';
+  if (!S.s?.source_photo_path) return 'Add your home photo before creating a preview.';
+  if (S.zones.some(id => !usableZone(visible().find(z => z.id === id)))) return 'Some selected areas need review. Open Lights to remove areas marked “needs review”, or choose another style.';
+  return 'A selected decoration or lighting area cannot be previewed. Choose another style or update your decoration locations.';
+}
 function resetHistoryIfNeeded() {
   const key = JSON.stringify([S.id, S.mode, epoch, S.s?.source_photo_path]);
   if (key !== historyKey) {
@@ -194,7 +200,7 @@ function refresh() {
   const snapshot = design(), result = validateDesign(snapshot, S.catalog);
   const uncertain = visible().filter(z => !usableZone(z));
   warning.classList.toggle('hidden', result.valid && !uncertain.length);
-  warning.textContent = !result.valid ? 'Before creating a preview: ' + result.errors.join(' ') : `${uncertain.length} detected ${uncertain.length === 1 ? 'area needs' : 'areas need'} review. Choose supported areas, or add a clearer photo to improve detection.`;
+  warning.textContent = !result.valid ? validationMessage(result) : `${uncertain.length} detected ${uncertain.length === 1 ? 'area needs' : 'areas need'} review. Choose supported areas, or add a clearer photo to improve detection.`;
   if (!result.valid) { $('render').disabled = true; activeRequest = ++nextRequest; queuedPaint = null; surface.classList.remove('editor-painted'); status.textContent = 'Choose supported lighting areas and decorations to preview.'; return; }
   if (!photoReady || photoFailed) { status.textContent = photoFailed ? 'Quick layout view. Create your preview to check the finished lighting.' : 'Preparing your concept view…'; return; }
   const key = JSON.stringify([photoEpoch, snapshot.color_style, snapshot.selected_zones, snapshot.selections, snapshot.install_zones]);
@@ -227,7 +233,7 @@ eligible = function(d) { return originalEligible(d).filter(usableZone); };
 const originalRender = $('render').onclick;
 $('render').onclick = async function(...args) {
   const check = validateDesign(design(), S.catalog);
-  if (!check.valid) { message('renderStatus', check.errors.join(' '), true); schedule(); return; }
+  if (!check.valid) { message('renderStatus', validationMessage(check), true); schedule(); return; }
   return originalRender.apply(this,args);
 };
 $('house').addEventListener('load', schedule);
