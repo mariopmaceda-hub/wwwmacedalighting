@@ -1,7 +1,7 @@
-/* Branch/local review isolation. Only the existing production hostname uses live APIs. */
+/* Only explicitly recognized local/Netlify preview hosts use simulated services. */
 (function(){
   'use strict';
-  if(location.hostname==='wwwmacedalighting.netlify.app')return;
+  if(!['localhost','127.0.0.1','[::1]'].includes(location.hostname)&&!/^deploy-preview-\d+--wwwmacedalighting\.netlify\.app$/.test(location.hostname))return;
   const host='gidqdlcvyasqalitqvcn.supabase.co',key='mlVizPreviewFixtureV1';
   const sample='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600"><rect width="900" height="600" fill="#b8ced0"/><rect y="440" width="900" height="160" fill="#71885b"/><path d="M130 290L430 110L730 290Z" fill="#4d514a"/><path d="M180 285H685V470H180Z" fill="#e2d4b9"/><path d="M550 470L590 600H375L414 470Z" fill="#cbc1a6"/><rect x="415" y="315" width="105" height="155" fill="#684f3c"/><g fill="#6b8581" stroke="#f7eddb" stroke-width="12"><rect x="230" y="320" width="100" height="95"/><rect x="565" y="320" width="75" height="95"/></g><path d="M125 292L430 110L738 292" fill="none" stroke="#f4eddf" stroke-width="10"/><text x="450" y="560" text-anchor="middle" font-family="Arial" font-size="22" fill="#263b2f">ILLUSTRATED REVIEW HOME · NOT AN AI RENDER</text></svg>');
   const catalog=[{id:'review-wreath',customer_name:'Wreath',category:'wreath',allowed_zones:['front_door'],concept_geometry:'ring'},{id:'review-garland',customer_name:'Garland',category:'garland',allowed_zones:['front_door','columns'],concept_geometry:'drape'},{id:'review-path',customer_name:'Pathway',category:'pathway',allowed_zones:['pathway'],concept_geometry:'path'},{id:'review-arches',customer_name:'Arches',category:'arches',allowed_zones:['pathway'],concept_geometry:'arch'}];

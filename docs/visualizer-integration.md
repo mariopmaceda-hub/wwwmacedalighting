@@ -1,5 +1,8 @@
 # Visualizer integration — October 8, 2026
 
+## Concept Editor increment — October 9, 2026
+The first-release editor adds direct run selection, undo/redo, zoom, original comparison and strict pre-render v1 validation. Its worker imports the same unchanged compositor used by the deployed API. It adds no backend or SQL changes. Scope, tests, deferred features and rollback are recorded in [concept-editor-first-release.md](concept-editor-first-release.md). Publication status must be verified separately; source presence is not proof of deployment.
+
 ## Contract and cost
 `maceda-concept/1` consumes Kevin's existing `install_zones` and `selections.placements`. Coordinates are normalized to the processed front photograph. The adapter never clamps, repairs, regenerates or truncates outlines. Confidence below 0.65, hidden zones, invalid bounds, unsupported shapes and incomplete placements block rendering. Missing visibility/occlusion metadata is reported. Explicit normalized polygon `occlusion_masks` exclude original pixels from drawing; no hidden geometry is inferred.
 

@@ -1,0 +1,30 @@
+/* First-release editor. All selectors are confined to the visualizer. */
+.editor-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px;align-items:center}
+.editor-toolbar button,.editor-tabs button{min-width:44px;min-height:44px;border:1px solid #bda66d80;border-radius:10px;padding:9px 13px;background:#183c2e;color:#f7ead1;font:inherit;font-size:13px;cursor:pointer}
+.editor-toolbar button[aria-pressed="true"],.editor-tabs button[aria-pressed="true"]{background:#ead095;color:#102a21}
+.editor-toolbar button:disabled{opacity:.4;cursor:default}
+.editor-toolbar .editor-spacer{flex:1}
+.editor-help{font-size:13px;line-height:1.6;color:#d3ded5;margin:8px 0}
+.editor-status{min-height:1.5em;font-size:12px;color:#ebd5a9;margin:8px 0}
+.editor-warning{font-size:13px;padding:12px;border:1px solid #e6bc7680;border-radius:10px;color:#ffe0ac;line-height:1.6}
+.editor-surface.canvas{display:block;overflow:auto;max-height:72vh;min-height:0;overscroll-behavior:contain;scrollbar-width:thin;touch-action:pan-x pan-y}
+.editor-surface .picwrap{max-width:none;min-width:100%;margin:0;position:relative}
+.editor-surface #house{width:100%;height:auto;display:block}
+.editor-paint,.editor-hit-layer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.editor-hit-layer path{cursor:pointer}
+.editor-hit-layer .run-guide{stroke:#ead095;stroke-width:2;stroke-dasharray:6 5;fill:none;vector-effect:non-scaling-stroke}
+.editor-hit-layer .run-selected{stroke:#ffffff;stroke-dasharray:none;opacity:.45}
+.editor-surface.editor-original #svg,.editor-surface.editor-original .editor-paint,.editor-surface.editor-original .editor-hit-layer{visibility:hidden}
+.editor-surface.editor-painted #svg{visibility:hidden}
+.editor-hit-layer path:focus{outline:none;stroke:#fff;stroke-width:5;stroke-dasharray:none}
+.editor-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.editor-tabs[hidden],.editor-legend[hidden]{display:none}
+#designStep .controls{align-content:start}
+.editor-tabs button{flex:1}
+.editor-panel-hidden{display:none}
+.editor-legend{display:flex;gap:14px;font-size:12px;color:#c4d1c7;margin:8px 0;flex-wrap:wrap}
+.editor-legend span:before{content:'';display:inline-block;width:20px;margin:0 5px 3px 0;border-top:2px solid #fff}
+.editor-legend span:last-child:before{border-top:2px dashed #ead095}
+#editorUndo,#editorRedo{font-weight:700}
+@media(max-width:900px){.editor-toolbar{position:sticky;top:58px;z-index:5;background:#102a21;padding:8px 0}.editor-surface.canvas{max-height:60vh}.editor-toolbar button{padding:9px 10px}.editor-toolbar .editor-spacer{display:none}}
+@media(prefers-reduced-motion:reduce){.editor-surface{scroll-behavior:auto}}
