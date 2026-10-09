@@ -431,7 +431,8 @@ quoteForm.addEventListener('submit', async (event) => {
       status: 'New Lead',
       sms_opt_in: true,
       sms_opt_in_at: new Date().toISOString(),
-      preview_status: 'queued'
+      preview_status: 'queued',
+      marketing_attribution: window.MacedaAttribution?.get() || null
     });
     if (error) throw error;
 
