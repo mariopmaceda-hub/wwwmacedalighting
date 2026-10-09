@@ -323,7 +323,7 @@ Deno.serve(async(req)=>{
       }
       const spec=rr.data.design_spec;
       const summary='Customer Visualizer: '+[spec.preset,spec.color_style,arr(spec.selected_zones).join(', '),arr(spec.selected_decorations).join(', ')].filter(Boolean).join(' | ');
-      const result=await client.rpc('finalize_visualizer_quote',{p_session_id:s.id,p_render_id:rr.data.id,p_preview_path:dest,p_contact:{name:clean(b.name,160),phone:clean(b.phone,80),email:clean(b.email,220),address:clean(b.address,300),sms_opt_in:true,message:[summary,clean(b.message,1500)].filter(Boolean).join('\n')}});
+      const result=await client.rpc('finalize_visualizer_quote',{p_session_id:s.id,p_render_id:rr.data.id,p_preview_path:dest,p_contact:{marketing_attribution:b.marketing_attribution??null,name:clean(b.name,160),phone:clean(b.phone,80),email:clean(b.email,220),address:clean(b.address,300),sms_opt_in:true,message:[summary,clean(b.message,1500)].filter(Boolean).join('\n')}});
       if(result.error)throw Error('Your quote is not yet confirmed. Your design is saved; please retry.');
       return new Response(JSON.stringify({ok:true,...result.data}),{headers:CORS});
     }
