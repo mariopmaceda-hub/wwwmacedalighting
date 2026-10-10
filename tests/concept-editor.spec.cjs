@@ -32,7 +32,7 @@ let checks=0;const check=(v,msg)=>{assert(v,msg);checks++;};
  await Promise.all([page.waitForNavigation(),page.getByRole('button',{name:'Load example home'}).click()]);
  await page.waitForFunction(()=>ready&&window.MacedaConceptEditor);
  await page.locator('[data-mode="design_my_home"]').click();
- await page.waitForFunction(()=>document.querySelector('#editorPreviewStatus').textContent.includes('matching preview layout'));
+ await page.waitForFunction(()=>document.querySelector('#editorPreviewStatus').textContent.includes('Layout guide only'));
  const original=await page.evaluate(()=>JSON.stringify(S.s.install_zones));
  const initial=await page.evaluate(()=>signature());
  await page.locator('[data-zone="main_roofline"]').focus();await page.keyboard.press('Enter');
@@ -80,7 +80,7 @@ let checks=0;const check=(v,msg)=>{assert(v,msg);checks++;};
      S.zones=['main_roofline'];S.decor=[];S.placements=[];document.querySelector('#house').src=S.s.front_url;build();changed();
    });
  }
- await page.waitForFunction(()=>document.querySelector('#editorPreviewStatus').textContent.includes('matching preview layout'));
+ await page.waitForFunction(()=>document.querySelector('#editorPreviewStatus').textContent.includes('Layout guide only'));
  const parity=await page.evaluate(async()=>{
    const {compositeRGBA}=await import('/supabase/functions/_shared/compositor.mjs');
    const img=document.querySelector('#house'),c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;
