@@ -63,4 +63,3 @@ begin
   return jsonb_build_object('status','submitted','quote_id',q.id,'preview_attached',true);
 end;
 $function$
-
