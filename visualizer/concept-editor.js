@@ -160,7 +160,7 @@ function ensureWorker() {
         paint.width = data.width; paint.height = data.height;
         paint.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(data.pixels), data.width, data.height), 0, 0);
         surface.classList.add('editor-painted'); lastPaintKey = pendingPaintKey;
-        status.textContent = 'Concept view · matching preview layout';
+        status.textContent = 'Layout guide only · create your night preview to see realistic lights';
       } else { surface.classList.remove('editor-painted'); status.textContent = 'Quick layout view. Create your preview to check the finished lighting.'; }
     }
     if (queuedPaint) { const next = queuedPaint; queuedPaint = null; sendPaint(next); }

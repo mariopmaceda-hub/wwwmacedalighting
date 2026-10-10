@@ -72,20 +72,25 @@ $('render').onclick=async()=>{
     clearTimeout(saveTimer);lock(true);$('finalStep').classList.add('hidden');prog(3);message('renderStatus','Saving your design…');
     await queueSave();const saved=await get();if(generation!==epoch)return;
     if(signature(saved)!==signature())throw Error('Your selection could not be confirmed. Please try again.');
-    message('renderStatus','Creating your lighting preview…');await post(payload({action:'start_render'}));await pollRender(generation);
+    message('renderStatus','Rendering realistic lights at night… This may take a few minutes.');await post(payload({action:'start_render',render_style:'night'}));await pollRender(generation);
   }catch(e){if(generation===epoch){message('renderStatus',e.message,true);lock(false);}}
 };
+function describeRender(render){
+  const night=render?.design_spec?.renderer==='ai-night-v1';
+  document.querySelector('#finalStep .head p').textContent=night?'An AI-generated night concept based on your photo and selected design. Maceda reviews placement and measurements before installation.':'Your saved lighting layout. Maceda reviews placement and measurements before installation.';
+  $('previewWarnings').textContent=night?'AI lighting and exposure may vary from the actual installation. Bulb spacing, placement and measurements are confirmed by Maceda.':'';
+}
 async function pollRender(generation=epoch){
   clearTimeout(pollTimer);
   try{
     const s=await get();if(generation!==epoch)return;const r=s.render;
     if(!r)throw Error('Preview not found. Please try again.');
     if(signature(s)!==signature())throw Error('Your design changed. Create a new preview.');
-    if(r.stage==='ready'&&r.image_url){if(r.design_spec&&signature({...r.design_spec})!==signature(s))throw Error('Your preview belongs to an earlier design. Please create a new preview.');$('originalFinal').src=s.front_url;$('renderFinal').src=r.image_url;renderSignature=signature();lock(false);showSummary();showStage('final');$('previewWarnings').textContent=(r.validation_result?.warnings||[]).length?'Some areas have no recorded obstruction mask. Maceda will confirm visibility and physical sizing before installation.':'';message('renderStatus','Your preview is ready.');return;}
+    if(r.stage==='ready'&&r.image_url){if(s.status!=='render_ready'&&s.status!=='converted_to_quote'){await post(payload({action:'continue_render'}));pollTimer=setTimeout(()=>pollRender(generation),1000);return;}if(r.design_spec&&signature({...r.design_spec})!==signature(s))throw Error('Your preview belongs to an earlier design. Please create a new preview.');$('originalFinal').src=s.front_url;$('renderFinal').src=r.image_url;renderSignature=signature();lock(false);showSummary();showStage('final');describeRender(r);message('renderStatus','Your preview is ready.');return;}
     if(r.stage==='failed')throw Error('This preview could not be completed. Your design is saved. Please try again.');
-    message('renderStatus',r.stage==='accuracy_check'?'Checking the preview against your original home…':r.retry_count?'Refining your preview for accuracy…':'Creating your lighting preview…');
-    if(r.stage==='queued'&&!S.continuing){S.continuing=true;post(payload({action:'continue_render'})).catch(()=>{if(generation===epoch)message('renderStatus','Connection interrupted. Checking your saved preview…',true)}).finally(()=>{if(generation===epoch)S.continuing=false});}
-    pollTimer=setTimeout(()=>pollRender(generation),2500);
+    message('renderStatus',r.stage==='accuracy_check'?'Checking the preview against your original home…':r.retry_count?'Refining your preview for accuracy…':'Rendering realistic lights at night… This may take a few minutes.');
+    if(['queued','generating','accuracy_check'].includes(r.stage)&&!S.continuing){S.continuing=true;post(payload({action:'continue_render'})).catch(()=>{if(generation===epoch)message('renderStatus','Connection interrupted. Checking your saved preview…',true)}).finally(()=>{if(generation===epoch)S.continuing=false});}
+    pollTimer=setTimeout(()=>pollRender(generation),5000);
   }catch(e){if(generation===epoch){message('renderStatus',e.message,true);lock(false);}}
 }
 $('quoteForm').onsubmit=async e=>{e.preventDefault();const b=$('quoteSubmit');try{b.disabled=true;const result=await post(payload({action:'create_quote',marketing_attribution:window.MLAnalytics?.attribution()||null,name:$('qName').value.trim(),phone:$('qPhone').value.trim(),email:$('qEmail').value.trim(),address:$('qAddress').value.trim(),message:$('qMessage').value.trim(),sms_opt_in:$('sms').checked}));if(result.status!=='submitted'||result.preview_attached!==true)throw Error('Your quote is not yet confirmed. Your design is saved; please retry.');try{window.MLAnalytics?.lead(result.quote_id,'visualizer')}catch{}$('quoteForm').replaceChildren();const s=document.createElement('div');s.className='success';s.textContent='Quote request sent. Your design, photos and lighting preview are attached for Maceda to review.';$('quoteForm').append(s);}catch(err){message('quoteStatus',err.message,true);b.disabled=false;}};
@@ -116,7 +121,11 @@ async function init(){
     if(dirty){await queueSave();await get();}else $('saveStatus').textContent='Your saved design is restored.';
     showStage(nextStage(),{replace:true,scroll:false});
     if(!dirty&&directionChosen&&colorChosen&&S.s.render&&['queued','generating','accuracy_check'].includes(S.s.render.stage)){lock(true);pollRender();}
-    else if(directionChosen&&colorChosen&&S.s.render?.stage==='ready'&&S.s.render.image_url&&(!S.s.render.design_spec||signature(S.s.render.design_spec)===signature(S.s))){$('renderFinal').src=S.s.render.image_url;renderSignature=signature();showSummary();showStage('final',{replace:true,scroll:false});}
+    else if(directionChosen&&colorChosen&&S.s.render?.stage==='ready'&&S.s.render.image_url&&(!S.s.render.design_spec||signature(S.s.render.design_spec)===signature(S.s))){
+      if(S.s.render.design_spec?.renderer==='deterministic-v1'&&S.s.status!=='converted_to_quote')message('renderStatus','Your saved layout is ready. Create a new night preview to see realistic lights.');
+      else if(S.s.status!=='render_ready'&&S.s.status!=='converted_to_quote'){lock(true);pollRender();}
+      else{$('renderFinal').src=S.s.render.image_url;renderSignature=signature();showSummary();showStage('final',{replace:true,scroll:false});describeRender(S.s.render);}
+    }
   }catch(e){message('contactStatus',e.message,true);$('contactStep').classList.remove('hidden');}
   finally{ready=Boolean(S.id);document.querySelectorAll('[data-mode]').forEach(b=>b.disabled=!ready||S.busy);}
 }
@@ -147,7 +156,7 @@ function syncJourney(){
   document.querySelectorAll('[data-diy]').forEach(e=>e.classList.toggle('hidden',maceda));
   $('designStep').classList.toggle('maceda-colors',maceda);
   $('designHeading').textContent=maceda?'Make it yours with color.':'Build the lighting direction.';
-  $('designIntro').textContent=maceda?S.preset+' · Your chosen lighting areas stay the same. Select a color, then create your lighting preview.':'Try colors, lighting areas and decorations instantly. When you are happy, create your lighting preview.';
+  $('designIntro').textContent=maceda?S.preset+' · Your chosen lighting areas stay the same. Select a color, then create your lighting preview.':'Choose your layout here, then create a realistic night preview with glowing lights.';
   $('designBack').textContent=maceda?'Back to concept directions':'Back to your choice';
   $('colorPrompt').classList.toggle('hidden',!maceda||colorChosen);
   $('render').disabled=S.busy||(maceda&&(!directionChosen||!colorChosen||!S.zones.length));

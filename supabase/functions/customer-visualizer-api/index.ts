@@ -2,6 +2,7 @@
 import "jsr:@supabase/functions-js@2.117.3/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.4";
 
+import { startNightRender, continueNightRender } from '../_shared/night-render.mjs';
 import { renderSnapshot } from '../_shared/render-snapshot.ts';
 const CORS={
   "content-type":"application/json",
@@ -161,7 +162,9 @@ Deno.serve(async(req)=>{
       const s=await requireSession(client,u.searchParams.get("session"),u.searchParams.get("token"));
       const render=s.current_render_id?await client.from("visualizer_renders").select("*").eq("id",s.current_render_id).maybeSingle():{data:null};
       const frontUrl=await signed(client,"quote-photos",s.source_photo_path,3600);
-      const resultUrl=render?.data?.image_path?await signed(client,"visualizer-renders",render.data.image_path,3600):null;
+      const resultUrl=render?.data?.stage==='ready'&&render.data.image_path?await signed(client,"visualizer-renders",render.data.image_path,3600):null;
+      const validation=render?.data?.validation_result||{};
+      const publicValidation={renderer:validation.renderer,passed:validation.passed,review:validation.review,warnings:validation.warnings,physical_dimensions_verified:validation.physical_dimensions_verified};
       return new Response(JSON.stringify({ok:true,session:{
         id:s.id,status:s.status,updated_at:s.updated_at,mode:s.mode,source_photo_path:s.source_photo_path,contact_profile:s.contact_profile,lead_quote_id:s.lead_quote_id,photo_views:s.photo_views,scale_calibration:s.scale_calibration,design_revision:s.design_revision,
         additional_photo_paths:s.additional_photo_paths,front_url:frontUrl,
@@ -169,7 +172,7 @@ Deno.serve(async(req)=>{
         preset:s.preset,color_style:s.color_style,selected_zones:s.selected_zones,
         selected_decorations:s.selected_decorations,selections:s.selections,expires_at:s.expires_at,
         render:render?.data?{id:render.data.id,version:render.data.version,stage:render.data.stage,image_url:resultUrl,
-          design_spec:render.data.design_spec,validation_result:render.data.validation_result,error:render.data.error,retry_count:render.data.retry_count}:null
+          design_spec:render.data.design_spec,validation_result:publicValidation,error:render.data.error,retry_count:render.data.retry_count}:null
       }}),{headers:CORS});
     }
     if(req.method!=="POST") return new Response(JSON.stringify({ok:false,error:"Method not allowed"}),{status:405,headers:CORS});
@@ -297,11 +300,18 @@ Deno.serve(async(req)=>{
     }
 
     if(action==="start_render"||action==="continue_render"){
-      await rateLimit(client,ch,"start_render",15,60,s.id);
+      await rateLimit(client,ch,action,action==='start_render'?15:600,60,s.id);
       const fresh=await requireSession(client,s.id,b.session_token);
       if(fresh.status==='converted_to_quote')throw Error('This quote has already been submitted.');
       if(!fresh.source_photo_path||!arr(fresh.install_zones).length)throw Error('Analyze your photo first.');
-      const r=await renderSnapshot(client,fresh);
+      const key=Deno.env.get('OPENAI_API_KEY');
+      // Versioned opt-in keeps already-open older clients working during rollout.
+      // New clients never fall back to an outline when night generation fails.
+      const current=action==='continue_render'&&fresh.current_render_id?await client.from('visualizer_renders').select('design_spec').eq('id',fresh.current_render_id).eq('session_id',fresh.id).maybeSingle():{data:null,error:null};
+      if(current.error)throw current.error;
+      const r=action==='start_render'
+        ?b.render_style==='night'?await startNightRender(client,fresh,key):await renderSnapshot(client,fresh)
+        :current.data?.design_spec?.renderer==='ai-night-v1'?await continueNightRender(client,fresh,key):await renderSnapshot(client,fresh);
       return new Response(JSON.stringify({ok:true,render_id:r.id,stage:r.stage}),{headers:CORS});
     }
 
