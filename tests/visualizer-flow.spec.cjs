@@ -8,6 +8,7 @@ let count=0;function check(value,message){assert(value,message);count++;}
 (async()=>{
  const browser=await chromium.launch({headless:true,...(process.env.BROWSER_PATH?{executablePath:process.env.BROWSER_PATH}:{channel:'chrome'})});
  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[],external=[];
+ await page.addInitScript(()=>localStorage.setItem('mlAnalyticsConsentV1',JSON.stringify('granted')));
  page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/*',async route=>{
    const u=new URL(route.request().url());
@@ -49,7 +50,7 @@ let count=0;function check(value,message){assert(value,message);count++;}
  check(await page.locator('#selectionSummary').textContent().then(s=>s.includes('Multicolor')&&s.includes('Minimal Modern')),'Final summary exact direction/color');
  check(await page.evaluate(()=>MacedaPreview.requests.filter(x=>x.action==='start_render').length===1),'One render for chosen direction');
  check(await page.evaluate(()=>signature(MacedaPreview.getState())===signature()),'Render uses saved selection');
- await page.locator('#sms').check();await page.evaluate(()=>{MacedaPreview.failAction='create_quote'});await page.locator('#quoteSubmit').click();await page.locator('#quoteStatus').waitFor({state:'visible'});check(await page.locator('#quoteForm input').count()>0&&!await page.locator('.success').count(),'Failed quote keeps form and never claims success');await page.evaluate(()=>{MacedaPreview.failAction=null});await page.locator('#quoteSubmit').click();await page.locator('.success').waitFor();check(await page.evaluate(()=>MacedaPreview.requests.some(x=>x.action==='create_quote'&&x.sms_opt_in===true)),'Existing quote payload and consent');
+ await page.locator('#sms').check();await page.evaluate(()=>{MacedaPreview.failAction='create_quote'});await page.locator('#quoteSubmit').click();await page.locator('#quoteStatus').waitFor({state:'visible'});check(await page.locator('#quoteForm input').count()>0&&!await page.locator('.success').count(),'Failed quote keeps form and never claims success');await page.evaluate(()=>{MacedaPreview.failAction=null});await page.locator('#quoteSubmit').click();await page.locator('.success').waitFor();check(await page.evaluate(()=>MacedaPreview.requests.some(x=>x.action==='create_quote'&&x.sms_opt_in===true)),'Existing quote payload and consent');check(await page.evaluate(()=>dataLayer.filter(x=>x[0]==='event'&&x[1]==='generate_lead'&&x[2].form_name==='visualizer').length===1),'One successful visualizer lead event after failed attempt');
  // Start a clean review session after the completed quote.
  await Promise.all([page.waitForNavigation(),page.getByRole('button',{name:'Load example home'}).click()]);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready);await mode(A);
  await page.locator('.direction').first().click();await page.locator('#colors [data-v="Warm White"]').click();

@@ -17,9 +17,10 @@ let checks=0;const check=(v,msg)=>{assert(v,msg);checks++;};
    res.writeHead(200,{'content-type':mime});res.end(fs.readFileSync(file));
  });
  await new Promise(r=>server.listen(0,'127.0.0.1',r));
- const browser=await chromium.launch({headless:true,channel:'chrome'});
+ const browser=await chromium.launch({headless:true,channel:process.env.BROWSER_CHANNEL||'chrome'});
  try{
  const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage(),errors=[],external=[];
+ await context.addInitScript(()=>localStorage.setItem('mlAnalyticsConsentV1',JSON.stringify('denied')));
  page.on('pageerror',e=>errors.push(e.message));
  await context.route('**/*',route=>{
    const u=new URL(route.request().url());
