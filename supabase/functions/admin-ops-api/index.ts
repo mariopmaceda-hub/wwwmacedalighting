@@ -168,7 +168,7 @@ async function handle(req:Request){
 
     if(view==="detail"){
       const id=String(url.searchParams.get("id")||"");
-      const {data:q,error:qErr}=await sb.from("quotes").select(base).eq("id",id).maybeSingle();
+      const {data:q,error:qErr}=await sb.from("admin_lead_records").select(base+",lead_classification,lead_evidence").eq("id",id).maybeSingle();
       if(qErr)throw qErr;
       if(!q)return new Response(JSON.stringify({ok:false,error:"not_found"}),{status:404,headers:cors});
       const photo_urls=[];
