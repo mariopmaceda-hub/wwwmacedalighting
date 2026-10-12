@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /inbox
+Disallow: /admin
+Disallow: /pay
+Disallow: /review
+Disallow: /supabase/
+Disallow: /database/
+Disallow: /tests/
+Disallow: /docs/
+
+Sitemap: https://wwwmacedalighting.netlify.app/sitemap.xml
