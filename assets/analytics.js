@@ -2,13 +2,15 @@
 (function(){
   'use strict';
   const HOST='wwwmacedalighting.netlify.app',GA='G-RXSFMWCDJ9',CLARITY='yusyap213r';
-  const paths=new Set(['/','/index.html','/visualizer/','/visualizer/index.html','/privacy','/privacy.html','/terms','/terms.html']);
+  const cityPath='/christmas-light-installation-pasadena/';
+  const paths=new Set(['/','/index.html','/visualizer/','/visualizer/index.html','/privacy','/privacy.html','/terms','/terms.html',cityPath,cityPath+'index.html']);
   if(!paths.has(location.pathname))return;
   const STORE='mlFirstTouchV1',CONSENT='mlAnalyticsConsentV1',TTL=90*86400000;
   const sourceNames=new Set(['door_hanger','yard_sign','flyer','google','bing','facebook','instagram','email','referral','direct']);
   const read=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null}},write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
   const safe=v=>typeof v==='string'&&/^[a-zA-Z][a-zA-Z0-9_-]{0,63}$/.test(v)&&!/[0-9]{7}/.test(v)?v:null;
-  const page=location.pathname.startsWith('/visualizer')?'/visualizer/':location.pathname.startsWith('/privacy')?'/privacy':location.pathname.startsWith('/terms')?'/terms':'/';
+  const page=location.pathname===cityPath||location.pathname===cityPath+'index.html'?cityPath:location.pathname.startsWith('/visualizer')?'/visualizer/':location.pathname.startsWith('/privacy')?'/privacy':location.pathname.startsWith('/terms')?'/terms':'/';
+  const pageTitle=page===cityPath?'Christmas Light Installation Pasadena, CA | Maceda Lighting':page==='/visualizer/'?'Maceda Lighting Visualizer':'Maceda Lighting';
   const params=new URLSearchParams(location.search);let touch=read(STORE);
   if(!touch||!Number.isFinite(Date.parse(touch.first_touch_at))||Date.now()-Date.parse(touch.first_touch_at)>TTL||Date.parse(touch.first_touch_at)>Date.now()+60000)touch=null;
   if(!touch&&['utm_source','utm_medium','utm_campaign','utm_content'].some(k=>params.has(k))){
@@ -23,7 +25,7 @@
   const cleanLocation='https://'+HOST+page;
   function track(name,form){
     if(!active)return;
-    const fields={page_location:cleanLocation,page_referrer:'',page_title:page==='/visualizer/'?'Maceda Lighting Visualizer':'Maceda Lighting',form_name:form==='visualizer'?'visualizer':'homepage',marketing_source:vendorSource()};
+    const fields={page_location:cleanLocation,page_referrer:'',page_title:pageTitle,form_name:form==='visualizer'?'visualizer':'homepage',marketing_source:vendorSource()};
     // Do not forward arbitrary UTM text to vendors. Only registered campaign labels are sent.
     if(touch?.utm_medium==='qr')fields.campaign_medium='qr';
     if(touch?.utm_campaign==='holiday_2026')fields.campaign_name='holiday_2026';
@@ -35,7 +37,7 @@
     gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
     gtag('consent','update',{analytics_storage:'granted'});
     gtag('js',new Date());
-    gtag('set',{allow_google_signals:false,allow_ad_personalization_signals:false,page_location:cleanLocation,page_referrer:'',page_title:page==='/visualizer/'?'Maceda Lighting Visualizer':'Maceda Lighting'});
+    gtag('set',{allow_google_signals:false,allow_ad_personalization_signals:false,page_location:cleanLocation,page_referrer:'',page_title:pageTitle});
     gtag('config',GA,{send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false,form_interactions:false});
     const script=document.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+GA;document.head.append(script);
     track('page_view',page==='/visualizer/'?'visualizer':'homepage');
