@@ -60,7 +60,8 @@ function seoChecks(){
  // Compare against the production baseline before the shared CSS extraction.
  const prior=cp.execFileSync('git',['show','f97b135034eb2cf6dfe239583c58204031293835:index.html'],{cwd:root,encoding:'utf8'});
  assert.equal(read('assets/public-site.css'),prior.match(/<style>([\s\S]*?)<\/style>/)[1]);
- assert.equal(home.slice(home.indexOf('<script src="https://cdn.jsdelivr.net')),prior.slice(prior.indexOf('<script src="https://cdn.jsdelivr.net')));
+ // Quote behavior is covered by quoteChecks and homepage-lead.spec; the no-photo path intentionally differs.
+ assert.equal(home.match(/<label class="consent">[\s\S]*?<\/label>/)[0],prior.match(/<label class="consent">[\s\S]*?<\/label>/)[0]);
  for(const href of [...page.matchAll(/(?:href|src)="([^"]+)"/g)].map(m=>m[1])){
   if(href.startsWith('#'))assert(page.includes('id="'+href.slice(1)+'"'));
   if(href.startsWith('/')&&!href.startsWith('//')){const p=href.split('#')[0];assert([p,p+'index.html',p+'.html'].some(p=>fs.existsSync(path.join(root,p))),href)}
