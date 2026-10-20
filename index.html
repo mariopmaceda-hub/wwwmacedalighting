@@ -179,9 +179,9 @@
       </div>
 
       <label for="photos">Upload property photos</label>
-      <input id="photos" type="file" multiple accept="image/*" required>
+      <input id="photos" type="file" multiple accept="image/*">
       <div id="photoPreview" class="photo-preview"></div>
-      <small class="small"><strong>Required for your custom lighting preview.</strong> Upload a clear, straight-on front photo first. You can add up to 6 photos total.</small>
+      <small class="small"><strong>Optional for a quote request; needed for a custom lighting preview.</strong> You can send photos later. For a preview, upload a clear, straight-on front photo first, with up to 6 photos total.</small>
 
       <label for="message">Tell us your Christmas lighting idea</label>
       <textarea id="message" placeholder="Tell us what you have in mind..."></textarea>
@@ -292,7 +292,6 @@ quoteForm.addEventListener('submit', async (event) => {
 
     const selectedServices = Array.from(document.querySelectorAll('#services input:checked')).map(input => input.value);
 
-    if (photoPaths.length === 0) throw new Error('Please upload at least one clear front photo so we can create your custom lighting preview.');
     const smsOptIn = document.getElementById('smsOptIn').checked;
     if (!smsOptIn) throw new Error('Please confirm the text-message consent box so we can send your custom preview and quote updates.');
 
@@ -311,7 +310,7 @@ quoteForm.addEventListener('submit', async (event) => {
       status: 'New Lead',
       sms_opt_in: true,
       sms_opt_in_at: new Date().toISOString(),
-      preview_status: 'queued'
+      preview_status: photoPaths.length ? 'queued' : 'waiting_for_photo'
     });
     if (error) throw error;
 
@@ -319,7 +318,7 @@ quoteForm.addEventListener('submit', async (event) => {
     pendingQuoteId=null;
     quoteForm.reset();
     photoPreview.innerHTML = '';
-    showStatus('Thank you! Your request was sent. We’ll create a custom 3-option lighting preview from your property photo and text it to you when it’s ready.', true);
+    showStatus(photoPaths.length ? "Thank you! Your request was sent. We'll create a custom 3-option lighting preview from your property photo and text it to you when it's ready." : "Thank you! Your quote request was sent. You can send property photos later so we can prepare your custom lighting preview.", true);
   } catch (err) {
     console.error(err);
     showStatus(err.message || 'There was a problem sending your quote request. Please call or text 323-480-7447.');
