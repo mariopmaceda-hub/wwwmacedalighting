@@ -97,6 +97,67 @@ let checks=0;const check=(value,message)=>{assert(value,message);checks++;};
   check(await page.evaluate(()=>S.s.status==='render_ready'),'Repaired ready result has quotable session state');
   check(await page.locator('#finalStep .head p').textContent().then(t=>t.includes('AI-generated night concept')),'AI result has the correct result label');
   check(await page.locator('#previewWarnings').textContent().then(t=>t.includes('AI lighting and exposure may vary')),'AI concept explains visual uncertainty');
+  // A completed render is not proof that its image URL can be loaded.
+  for(const width of [390,1440])for(const mode of ['design_my_home','design_it_for_me']){
+   await page.setViewportSize({width,height:900});
+   await page.evaluate(async mode=>{
+    lock(false);selectMode(mode,false);await saveChain;
+    if(mode==='design_it_for_me'){document.querySelector('.direction').click();document.querySelector('#colors [data-v="Warm White"]').click();}
+    clearTimeout(saveTimer);await queueSave();await get();
+    const s=MacedaPreview.getState();s.status='render_ready';s.render={id:'broken-image',stage:'ready',image_url:'data:image/png;base64,broken',design_spec:{...s,render:null,renderer:'ai-night-v1'}};MacedaPreview.setState(s);
+    await pollRender();clearTimeout(pollTimer);
+   },mode);
+   await page.locator('#retryPreviewImage').waitFor({state:'visible'});
+   check(await page.locator('#previewImageStatus').textContent().then(t=>t.includes('could not load')),mode+' '+width+' explains broken image');
+   if(process.env.QA_OUTPUT&&mode==='design_my_home'){fs.mkdirSync(process.env.QA_OUTPUT,{recursive:true});await page.screenshot({path:path.join(process.env.QA_OUTPUT,'preview-image-recovery-'+width+'.png'),fullPage:true});}
+   await page.reload();await page.waitForFunction(()=>ready&&window.MacedaConceptEditor);
+   await page.locator('#retryPreviewImage').waitFor({state:'visible'});
+   check(await page.locator('#previewImageStatus').isVisible(),mode+' '+width+' handles broken restored image');
+   const before=await page.evaluate(()=>({signature:signature(),requests:MacedaPreview.requests.length}));
+   await page.evaluate(()=>{const s=MacedaPreview.getState();s.render.image_url=s.front_url;MacedaPreview.setState(s);});
+   await page.locator('#retryPreviewImage').click();
+   await page.waitForFunction(()=>document.querySelector('#renderFinal').naturalWidth>0&&document.querySelector('#previewImageStatus').classList.contains('hidden'));
+   check(await page.evaluate(()=>signature())===before.signature,mode+' '+width+' recovery preserves design');
+   check(await page.evaluate(n=>MacedaPreview.requests.slice(n).every(r=>!['start_render','continue_render','create_quote','save_design','save_contact'].includes(r.action)),before.requests),mode+' '+width+' retry performs no generation or writes');
+   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),mode+' '+width+' has no horizontal overflow');
+  }
+  // Ready jobs can lack a URL when storage signing fails. This is delivery recovery, not regeneration.
+  for(const width of [390,1440])for(const mode of ['design_my_home','design_it_for_me']){
+   await page.setViewportSize({width,height:900});
+   const before=await page.evaluate(async mode=>{
+    lock(false);selectMode(mode,false);await saveChain;
+    if(mode==='design_it_for_me'){document.querySelector('.direction').click();document.querySelector('#colors [data-v="Warm White"]').click();}
+    clearTimeout(saveTimer);await queueSave();await get();
+    const s=MacedaPreview.getState();s.status='render_ready';s.render={id:'missing-url',stage:'ready',image_url:null,design_spec:{...s,render:null,renderer:'ai-night-v1'}};MacedaPreview.setState(s);
+    const saved={signature:signature(),state:JSON.stringify(MacedaPreview.getState()),requests:MacedaPreview.requests.length};
+    lock(true);const original=setTimeout;window.pollSchedules=[];window.setTimeout=(fn,delay)=>{window.pollSchedules.push(delay);return 0;};
+    try{await pollRender();}finally{window.setTimeout=original;}
+    return saved;
+   },mode);
+   const label=mode+' '+width;
+   check(await page.locator('#finalStep').isVisible(),label+' missing URL retains saved preview stage');
+   check(await page.locator('#previewImageStatus').textContent().then(t=>t.includes('could not load')&&t.includes('design is saved')),label+' missing URL is explained');
+   check(await page.evaluate(()=>!S.busy&&pollSchedules.length===0),label+' missing URL stops busy state and automatic polling');
+   check(await page.locator('#renderFinal').getAttribute('src')===null,label+' missing URL clears any stale image');
+   check(await page.evaluate(saved=>signature()===saved.signature&&JSON.stringify(MacedaPreview.getState())===saved.state,before),label+' missing URL preserves saved data');
+   await page.locator('#retryPreviewImage').click();
+   check(await page.locator('#retryPreviewImage').isVisible()&&!await page.locator('#retryPreviewImage').isDisabled(),label+' continued signing failure remains retryable');
+   check(await page.evaluate(n=>MacedaPreview.requests.slice(n).length===2&&MacedaPreview.requests.slice(n).every(r=>Object.keys(r).length===0),before.requests),label+' polling and retry only read status');
+   await page.reload();await page.waitForFunction(()=>ready&&window.MacedaConceptEditor);
+   check(await page.locator('#finalStep').isVisible()&&await page.locator('#retryPreviewImage').isVisible(),label+' refresh restores missing-URL recovery');
+   check(await page.evaluate(()=>!S.busy&&MacedaPreview.requests.every(r=>!r.action)),label+' refresh creates no generation or writes');
+   if(process.env.QA_OUTPUT&&mode==='design_my_home')await page.screenshot({path:path.join(process.env.QA_OUTPUT,'preview-missing-url-'+width+'.png'),fullPage:true});
+   const requestCount=await page.evaluate(()=>MacedaPreview.requests.length);
+   await page.evaluate(()=>{const s=MacedaPreview.getState();s.render.image_url=s.front_url;MacedaPreview.setState(s);});
+   await page.locator('#retryPreviewImage').click();
+   await page.waitForFunction(()=>document.querySelector('#renderFinal').naturalWidth>0&&document.querySelector('#previewImageStatus').classList.contains('hidden'));
+   check(!await page.locator('#retryPreviewImage').isVisible(),label+' valid URL clears recovery controls');
+   check(await page.evaluate(n=>MacedaPreview.requests.slice(n).length===1&&Object.keys(MacedaPreview.requests[n]).length===0,requestCount),label+' successful retry is exactly one status read');
+   check(await page.evaluate(()=>signature())===before.signature,label+' successful retry retains design');
+   await page.reload();await page.waitForFunction(()=>ready&&window.MacedaConceptEditor&&document.querySelector('#renderFinal').naturalWidth>0);
+   check(await page.locator('#finalStep').isVisible()&&!await page.locator('#previewImageStatus').isVisible()&&!await page.locator('#retryPreviewImage').isVisible(),label+' normal ready restoration remains unchanged');
+   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),label+' recovery layout fits viewport');
+  }
   const savedSignature=await page.evaluate(()=>signature());
   await page.evaluate(()=>{
    const s=MacedaPreview.getState();s.status='render_ready';s.render={id:'legacy-layout',stage:'ready',image_url:s.front_url,design_spec:{...s,render:null,renderer:'deterministic-v1'}};MacedaPreview.setState(s);
