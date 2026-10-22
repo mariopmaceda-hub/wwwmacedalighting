@@ -1,0 +1,156 @@
+{
+  "purpose": "SHA256-pinned sanitized historical restoration candidate; excludes original literal Vault provisioning prefix.",
+  "migrations": [
+    {
+      "version": "20260930050241",
+      "file": "20260930050241_add_instant_quote_to_sheet_webhook.sql",
+      "sha256": "be354c36396043b9a4b340790fbc16d00b014dbaa8566abe8b35a45e23ee6862"
+    },
+    {
+      "version": "20260930170346",
+      "file": "20260930170346_add_quote_preview_automation_fields.sql",
+      "sha256": "fa26b0fdf8ceb409323550ddfdec9f81798717dde4d14d1b778003251570655b"
+    },
+    {
+      "version": "20260930170745",
+      "file": "20260930170745_queue_quote_preview_when_photo_and_sms_consent_exist.sql",
+      "sha256": "04849f37b8c9119b443b896d69833224e09cb2bf6d4902bf97e31f71f3209f7f"
+    },
+    {
+      "version": "20260930171508",
+      "file": "20260930171508_wire_automatic_quote_preview_generation.sql",
+      "sha256": "cc7acd1adac92a30e5292fa499bedf4d2261e547d5a58a8c78f9b6a91aa4fd09"
+    },
+    {
+      "version": "20261001060151",
+      "file": "20261001060151_add_deposit_fields_to_quotes.sql",
+      "sha256": "986a8a8537af80ce932c9e86cd6f59bc56c20ee78c4ed6f0cfea1e64c4d1ed95"
+    },
+    {
+      "version": "20261001060629",
+      "file": "20261001060629_add_stripe_webhook_event_log.sql",
+      "sha256": "b051bc535a307d28f25495c47fae92d6819f40ff3289792d605849aa311c4394"
+    },
+    {
+      "version": "20261001062622",
+      "file": "20261001062622_wire_deposit_checkout_trigger.sql",
+      "sha256": "90ba6aba1c8f07431f8c92be1b0e862526c29e359efe776b850225719ba57b35"
+    },
+    {
+      "version": "20261001151941",
+      "file": "20261001151941_store_stripe_webhook_secret_rpc.sql",
+      "sha256": "ac484ab2fd84e755b491643c06fa9a94eb906f9672dc8407df6179e955d8fdfc"
+    },
+    {
+      "version": "20261001151951",
+      "file": "20261001151951_add_stripe_webhook_config.sql",
+      "sha256": "cdd86924687bb1601097a5aaa9dbded2711fbdae82e02615d87da9731dd6b977"
+    },
+    {
+      "version": "20261001152126",
+      "file": "20261001152126_schedule_stripe_deposit_sync.sql",
+      "sha256": "13ee11225b51b266a8db6801e8d8991fa4c35c3094a2207ee26cb8afaddb81eb"
+    },
+    {
+      "version": "20261001153433",
+      "file": "20261001153433_add_deposit_gated_scheduling.sql",
+      "sha256": "da259e67fc518963ac9fe7d8cf5406ad6400563e5c5a6623788a8c08912c8ae8"
+    },
+    {
+      "version": "20261001154338",
+      "file": "20261001154338_add_cal_booking_tracking.sql",
+      "sha256": "f5190e822cabee5793f34e350e8b7fb502c2c2343586367cbc9c98134c259b95"
+    },
+    {
+      "version": "20261001160523",
+      "file": "20261001160523_fix_cal_booking_metadata_links.sql",
+      "sha256": "7739f6a841e991aa010bea7418ee923584f2bcfe709bc1f80a92d19bcfb7fcf8"
+    },
+    {
+      "version": "20261002103915",
+      "file": "20261002103915_allow_authenticated_quote_photo_uploads.sql",
+      "sha256": "11e7daf8b08424557ed2a7f07c02e1e65b872f7fb9e9bd23c641f4cf9b37632f"
+    },
+    {
+      "version": "20261002104014",
+      "file": "20261002104014_allow_authenticated_quote_submissions.sql",
+      "sha256": "06278b4c92612d453a6d9f94706a3b1e92acbda74a3a8e3b83c30f017d5e0e2b"
+    },
+    {
+      "version": "20261002105053",
+      "file": "20261002105053_add_preview_review_fields.sql",
+      "sha256": "dd860d98f53addd1f4500c265b7e241c3bf51edb3ded90fee24bd472f9d99d50"
+    },
+    {
+      "version": "20261005005000",
+      "file": "20261005005000_index_visualizer_current_render.sql",
+      "sha256": "c0e4aa33aefbbebd01ad571e781eb2a80e74f690bfd984226edbf602f2a7fcd0"
+    },
+    {
+      "version": "20261005151751",
+      "file": "20261005151751_visualizer_v1_durable_leads_and_expandable_catalog.sql",
+      "sha256": "3f82eaaf850cf15b4263977784ed6da7e9d7fe2cbcba917cb3a244827afc8a2b"
+    },
+    {
+      "version": "20261005163953",
+      "file": "20261005163953_maceda_product_engine_provider_ready_foundation.sql",
+      "sha256": "4ab6654660cf47117bef3cf15e70a1bb4681385b92f7543d336974f677a5d311"
+    },
+    {
+      "version": "20261005164942",
+      "file": "20261005164942_maceda_product_engine_recheck_reservations.sql",
+      "sha256": "e95e4e7e5712e8883032794b455916d1a681af772d70c79dcbfb3b82c974d75b"
+    },
+    {
+      "version": "20261006163509",
+      "file": "20261006163509_admin_leads_recoverable_trash.sql",
+      "sha256": "6b649e581883f6a79b7874e97e04511126ebed1a96d3172d9aa8a6029bfc1e7f"
+    },
+    {
+      "version": "20261006205533",
+      "file": "20261006205533_create_lead_followup_automation_state.sql",
+      "sha256": "dc08d06a291d38130f2b2f774394c5a62cec44e66a0c62b65e6138574e92fa1a"
+    },
+    {
+      "version": "20261006205852",
+      "file": "20261006205852_index_lead_followup_foreign_keys.sql",
+      "sha256": "063b6ed4065984205744cafbb1fd0aa5dc574f3eeabad60db528ddf9950e4b11"
+    },
+    {
+      "version": "20261008062910",
+      "file": "20261008062910_shared_trash_restorable_archive.sql",
+      "sha256": "e862d4955e295fd1bc94379d7e678f9c9999797c993f1b38ab0d6b62f6f4b116"
+    },
+    {
+      "version": "20261008063019",
+      "file": "20261008063019_archive_backend_admin_check_permission.sql",
+      "sha256": "17aabec227508eb866cc9e45312f3b85e9689483b78ae075a9e21198379cf028"
+    },
+    {
+      "version": "20261008235736",
+      "file": "20261008235736_visualizer_atomic_handoff.sql",
+      "sha256": "5d1e0e7e91dd4a9e533b9f035402c201f602c50250883e88885364360dab74c9"
+    },
+    {
+      "version": "20261009055222",
+      "file": "20261009055222_marketing_attribution_owner_notifications.sql",
+      "sha256": "2813a8d021ac706224583f955616dc5f4fa3a98b824cbddb262002655f263179"
+    },
+    {
+      "version": "20261010053304",
+      "file": "20261010053304_visualizer_reviewed_night_handoff.sql",
+      "sha256": "e96d825b516d7ae5f23e92a1225042f35ba9987175df61150e6f88ec81a891fc"
+    },
+    {
+      "version": "20261012044642",
+      "file": "20261012044642_allow_pasadena_marketing_landing_page.sql",
+      "sha256": "bbf50b95ba0478604dabb4256814c2329c095b6f864078dd37615d7fd15b8a00"
+    }
+  ],
+  "sanitized_tail": {
+    "version": "20260930171508",
+    "starts_with": "create or replace function public.maceda_invoke_quote_preview()",
+    "sha256": "0955d4dbc124f8b14650b14292e0bea47c67270cd5dd4bf67cf78ecbaee21e4d",
+    "exception": "Original literal Vault credential provisioning prefix intentionally omitted; fresh environments require separately approved provisioning. Canonical function/trigger/storage tail preserved."
+  }
+}

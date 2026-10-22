@@ -1,0 +1,438 @@
+{
+  "purpose": "Synthetic prehistory fixture, not production DDL or a fresh-install bootstrap. Six prerequisite tables; recorded later columns excluded. Only columns referenced by recorded migration SQL or synthetic scenarios are retained; this is a test dependency subset.",
+  "type_provenance": "Types/nullability informed by metadata-only catalog review; defaults, primary keys, policies, service-role BYPASSRLS/grants and admin function are synthetic in the harness. No historical constraints/defaults are asserted.",
+  "columns": [
+    {
+      "relation_name": "maceda_products",
+      "column_name": "id",
+      "data_type": "uuid",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "maceda_product_id",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "customer_name",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "customer_image_url",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "category",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "dimensions",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "color_variants",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "allowed_zones",
+      "data_type": "text[]",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "availability_status",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "customer_visible",
+      "data_type": "boolean",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "approved_at",
+      "data_type": "timestamp with time zone",
+      "not_null": false
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "maceda_products",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "quote_id",
+      "data_type": "uuid",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "version",
+      "data_type": "integer",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "source_photo_path",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "image_path",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "stage",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "error",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "generated_at",
+      "data_type": "timestamp with time zone",
+      "not_null": false
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "stage_updated_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "reviewed_at",
+      "data_type": "timestamp with time zone",
+      "not_null": false
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "design_spec",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "validation_result",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "preview_versions",
+      "column_name": "quality_status",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "id",
+      "data_type": "uuid",
+      "not_null": true
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "not_null": false
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "name",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "phone",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "email",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "address",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "property_type",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "services",
+      "data_type": "text[]",
+      "not_null": false
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "message",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "photo_paths",
+      "data_type": "text[]",
+      "not_null": false
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "status",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "job_status",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "admin_notes",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "quotes",
+      "column_name": "visualizer_session_id",
+      "data_type": "uuid",
+      "not_null": false
+    },
+    {
+      "relation_name": "sms_messages",
+      "column_name": "id",
+      "data_type": "uuid",
+      "not_null": true
+    },
+    {
+      "relation_name": "sms_messages",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "sms_messages",
+      "column_name": "body",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "sms_messages",
+      "column_name": "status",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "sms_messages",
+      "column_name": "error_code",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "sms_messages",
+      "column_name": "quote_id",
+      "data_type": "uuid",
+      "not_null": false
+    },
+    {
+      "relation_name": "sms_messages",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "id",
+      "data_type": "uuid",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "session_id",
+      "data_type": "uuid",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "version",
+      "data_type": "integer",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "stage",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "image_path",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "design_spec",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "validation_result",
+      "data_type": "jsonb",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "error",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "generated_at",
+      "data_type": "timestamp with time zone",
+      "not_null": false
+    },
+    {
+      "relation_name": "visualizer_renders",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "session_token_hash",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "status",
+      "data_type": "text",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "mode",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "source_photo_path",
+      "data_type": "text",
+      "not_null": false
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "additional_photo_paths",
+      "data_type": "text[]",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "selected_zones",
+      "data_type": "text[]",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "current_render_id",
+      "data_type": "uuid",
+      "not_null": false
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    },
+    {
+      "relation_name": "visualizer_sessions",
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "not_null": true
+    }
+  ]
+}

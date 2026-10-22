@@ -16,7 +16,7 @@ const {PGlite}=require(process.env.PGLITE_MODULE||'@electric-sql/pglite');
  create function extensions.gen_random_bytes(n integer) returns bytea language sql as 'select decode(repeat(''ab'',n),''hex'')';
  create function vault.create_secret(v text,n text) returns void language sql as 'insert into vault.secrets values(n)';
  create function net.http_post(url text,headers jsonb,body jsonb,timeout_milliseconds integer) returns bigint language sql as 'select 1::bigint';`);
- await db.exec(fs.readFileSync('supabase/migrations/20261009054330_marketing_attribution_owner_notifications.sql','utf8'));
+ await db.exec(fs.readFileSync('supabase/migrations/20261009055222_marketing_attribution_owner_notifications.sql','utf8'));
  assert.equal((await db.query('select count(*)::int n from public.owner_notification_claim()')).rows[0].n,0);
  await db.exec("create table test_notifications(id integer generated always as identity); create function test_ack() returns trigger language plpgsql as 'begin insert into test_notifications default values; return new; end'; create trigger test_ack after update of sms_opt_in on quotes for each row when (new.sms_opt_in=true) execute function test_ack();");
  const sid='10000000-0000-0000-0000-000000000001',rid='20000000-0000-0000-0000-000000000001',qid='30000000-0000-0000-0000-000000000001',dest=qid+'/visualizer-'+rid+'.png';

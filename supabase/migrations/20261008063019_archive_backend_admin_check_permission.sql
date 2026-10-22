@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION private.is_admin(uuid) TO service_role;
