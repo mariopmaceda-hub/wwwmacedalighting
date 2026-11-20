@@ -93,6 +93,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .portfolio-empty span{color:#e7c879;text-transform:uppercase;font-size:12px;font-weight:900;letter-spacing:.2em}
 .portfolio-empty h3{font-family:Georgia,serif;font-size:38px;font-weight:500;margin:8px 0}
 .portfolio-empty p{max-width:620px;color:#c9d4ce;margin:0}
+.instagram-portfolio{margin-top:20px;padding:30px 32px;border:1px solid var(--line);border-radius:24px;background:var(--paper);display:flex;align-items:center;justify-content:space-between;gap:28px;box-shadow:0 18px 45px rgba(20,36,30,.05)}
+.instagram-portfolio h3{font-family:Georgia,serif;font-size:30px;line-height:1.1;font-weight:500;margin:8px 0;color:var(--forest)}
+.instagram-portfolio p{max-width:640px;color:var(--muted);margin:0}
+.instagram-portfolio .btn{flex:0 0 auto;text-align:center}
 .quote-section{background:var(--paper)}
 .quote-wrap{display:grid;grid-template-columns:.78fr 1.22fr;gap:58px;align-items:start}
 .quote-copy{position:sticky;top:100px}
@@ -134,7 +138,7 @@ textarea{min-height:125px;resize:vertical}
  body{padding-bottom:72px}.nav{padding:13px 5%}.navlinks>a:not(.nav-cta){display:none}.brand{font-size:12px;letter-spacing:.1em}
  .hero{min-height:auto}.hero-grid{padding:72px 6% 78px}.hero h1{font-size:54px}.hero-copy{font-size:17px}.hero-panel{padding:24px}
  .trustbar{grid-template-columns:1fr 1fr}.trustitem{padding:18px 12px;font-size:11px}
- .section{padding:72px 6%}.statement-grid{gap:32px}.service-grid,.portfolio{grid-template-columns:1fr}
+ .section{padding:72px 6%}.statement-grid{gap:32px}.service-grid,.portfolio{grid-template-columns:1fr}.instagram-portfolio{align-items:flex-start;flex-direction:column;padding:26px 24px}.instagram-portfolio .btn{width:100%}
  .process-grid{grid-template-columns:1fr}.process-step{border-right:0;border-bottom:1px solid rgba(255,255,255,.15);min-height:auto}.process-step:last-child{border-bottom:0}
  .checks{grid-template-columns:1fr}.form{padding:24px}.photo-preview{grid-template-columns:1fr 1fr}
  .footer{grid-template-columns:1fr;padding-bottom:42px}
@@ -146,3 +150,4 @@ textarea{min-height:125px;resize:vertical}
 .viz-teaser-grid{display:grid;grid-template-columns:1fr auto;gap:34px;align-items:center}
 .viz-teaser h2{color:#fff!important;margin-bottom:14px}.viz-teaser p{color:#c8d6cf;max-width:760px;margin:0}
 @media(max-width:720px){.viz-teaser-grid{grid-template-columns:1fr}}
+

@@ -11,7 +11,7 @@ function run(url,storage=new Map(),gpc=false,referrer=''){
  ctx.window=ctx;vm.runInNewContext(analytics,ctx);
  const choose=label=>nodes.get('mlPrivacyBanner').children.find(n=>n.textContent===label).onclick();
  const events=()=>Array.from(ctx.dataLayer||[]).filter(x=>x[0]==='event').map(x=>({name:x[1],data:x[2]}));
- return {ctx,storage,scripts,masked,events,choose,click:href=>listeners.click({target:{closest:()=>({href:new URL(href,url).href})}}),input:()=>listeners.input({target:{closest:()=>({})}})};
+ return {ctx,storage,scripts,masked,events,choose,click:(href,analytics)=>listeners.click({target:{closest:()=>({href:new URL(href,url).href,dataset:analytics?{analytics}:{}})}}),input:()=>listeners.input({target:{closest:()=>({})}})};
 }
 const shared=new Map(),city=run(origin+route+'?utm_source=door_hanger&utm_medium=qr&utm_campaign=holiday_2026',shared);
 assert.equal(city.scripts.length,0);city.choose('Allow analytics');
@@ -21,11 +21,12 @@ assert.equal(city.events()[0].data.page_location,origin+route);assert.equal(city
 city.click('/#quote');assert.equal(city.events().filter(x=>x.name==='quote_cta_click').length,1);assert.equal(city.events().at(-1).data.page_location,origin+route);
 city.ctx.MLAnalytics.preferences();city.choose('Allow analytics');assert.equal(city.events().filter(x=>x.name==='page_view').length,1);
 city.click('/visualizer/');assert.equal(city.events().at(-1).data.form_name,'visualizer');
+city.click('https://www.instagram.com/macedalighting/','instagram-portfolio');assert.equal(city.events().filter(x=>x.name==='instagram_portfolio_click').length,1);assert.equal(city.events().at(-1).data.form_name,'instagram_portfolio');
 const home=run(origin+'/#quote',shared, false,origin+route);home.input();home.input();assert.equal(home.events().filter(x=>x.name==='quote_form_start').length,1);
 assert.equal(home.ctx.MLAnalytics.attribution().utm_source,'door_hanger');assert.equal(home.ctx.MLAnalytics.attribution().landing_page,route);
 assert(home.scripts.some(x=>x.includes('clarity.ms')));assert(home.masked.some(x=>x.includes('#photoPreview')&&x.includes('form')));
 const visualizer=run(origin+'/visualizer/?utm_source=flyer',shared);assert.equal(visualizer.ctx.MLAnalytics.attribution().utm_source,'door_hanger');assert.equal(visualizer.ctx.MLAnalytics.attribution().landing_page,route);assert(visualizer.masked.some(x=>x.includes('#pics')&&x.includes('#directions')&&x.includes('.compare')));
-const denied=run(origin+route,new Map([['mlAnalyticsConsentV1','"denied"']]));assert.equal(denied.scripts.length,0);denied.click('/#quote');assert.equal(denied.events().length,0);
+const denied=run(origin+route,new Map([['mlAnalyticsConsentV1','"denied"']]));assert.equal(denied.scripts.length,0);denied.click('/#quote');assert.equal(denied.events().length,0);denied.click('https://www.instagram.com/macedalighting/','instagram-portfolio');assert.equal(denied.events().length,0);
 const gpc=run(origin+route,new Map([['mlAnalyticsConsentV1','"granted"']]),true);assert.equal(gpc.scripts.length,0);
 const unsafe=run(origin+route+'?email=private@example.invalid&utm_source=PrivatePerson&phone=3235550123#secret',new Map([['mlAnalyticsConsentV1','"granted"']]));
 assert(!unsafe.scripts.some(x=>x.includes('clarity.ms')));assert(!JSON.stringify(unsafe.events()).match(/PrivatePerson|private@example|3235550123|secret/));
@@ -55,16 +56,26 @@ function seoChecks(){
  assert(page.includes('name="description" content="Professional Christmas light installation in Pasadena, CA. Custom rooflines, trees, windows, walkways and full-property holiday displays from Maceda Lighting."'));
  assert(page.includes('rel="canonical" href="'+origin+route+'"'));assert(home.includes('href="'+route+'"'));
  assert.equal((page.match(/<form\b/g)||[]).length,0);assert.equal((page.match(/<details>/g)||[]).length,5);
+ const instagram='https://www.instagram.com/macedalighting/';
+ const publicPages=[home,page,read('visualizer/index.html')];
+ assert.equal((home.match(new RegExp(instagram,'g'))||[]).length,2);assert.equal((page.match(new RegExp(instagram,'g'))||[]).length,1);assert.equal((publicPages[2].match(new RegExp(instagram,'g'))||[]).length,1);
+ for(const source of publicPages){assert(source.includes('target="_blank" rel="noopener noreferrer" data-analytics="instagram-portfolio"'));assert(!source.includes('<iframe'))}
+ assert(!home.slice(0,home.indexOf('</nav>')).includes(instagram));
  const schema=JSON.parse(page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);assert.equal(schema['@type'],'Service');assert.equal(schema.areaServed.name,'Pasadena');assert(!JSON.stringify(schema).match(/rating|review|address|openingHours|geo/));
  assert(read('sitemap.xml').includes(origin+route));const robots=read('robots.txt');for(const p of ['/inbox','/admin','/pay','/review'])assert(robots.includes('Disallow: '+p));assert(!robots.includes('Disallow: '+route));
- // Compare against the production baseline before the shared CSS extraction.
- const prior=cp.execFileSync('git',['show','f97b135034eb2cf6dfe239583c58204031293835:index.html'],{cwd:root,encoding:'utf8'});
- assert.equal(read('assets/public-site.css'),prior.match(/<style>([\s\S]*?)<\/style>/)[1]);
+ // Preserve the existing shared styles while permitting the narrowly scoped Instagram block.
+ const prior=cp.execFileSync('git',['show','origin/main:assets/public-site.css'],{cwd:root,encoding:'utf8'});
+ const publicCss=read('assets/public-site.css')
+  .replace(/\.instagram-portfolio\{[^}]+\}\r?\n\.instagram-portfolio h3\{[^}]+\}\r?\n\.instagram-portfolio p\{[^}]+\}\r?\n\.instagram-portfolio \.btn\{[^}]+\}\r?\n/,'')
+  .replace(/\.portfolio\{grid-template-columns:1fr\}\.instagram-portfolio\{[^}]+\}\.instagram-portfolio \.btn\{[^}]+\}/,'.portfolio{grid-template-columns:1fr}');
+ assert.equal(publicCss,prior);
  // Quote behavior is covered by quoteChecks and homepage-lead.spec; the no-photo path intentionally differs.
- assert.equal(home.match(/<label class="consent">[\s\S]*?<\/label>/)[0],prior.match(/<label class="consent">[\s\S]*?<\/label>/)[0]);
+ const priorHome=cp.execFileSync('git',['show','origin/main:index.html'],{cwd:root,encoding:'utf8'});
+ assert.equal(home.match(/<label class="consent">[\s\S]*?<\/label>/)[0],priorHome.match(/<label class="consent">[\s\S]*?<\/label>/)[0]);
  for(const href of [...page.matchAll(/(?:href|src)="([^"]+)"/g)].map(m=>m[1])){
   if(href.startsWith('#'))assert(page.includes('id="'+href.slice(1)+'"'));
   if(href.startsWith('/')&&!href.startsWith('//')){const p=href.split('#')[0];assert([p,p+'index.html',p+'.html'].some(p=>fs.existsSync(path.join(root,p))),href)}
  }
 }
 quoteChecks().then(()=>{seoChecks();console.log('PASS: SEO, links, shared-style equivalence; consent and GPC; distinct city page_view; one event per CTA; first-touch to homepage/visualizer; form start once; failed submits emit no conversion; successful mocked quote emits once; reload deduplication; PII exclusion; Clarity gate/masking; private paths excluded. No external requests or records.');}).catch(e=>{console.error(e);process.exitCode=1});
+
