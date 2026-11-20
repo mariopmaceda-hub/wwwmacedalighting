@@ -25,7 +25,7 @@
   const cleanLocation='https://'+HOST+page;
   function track(name,form){
     if(!active)return;
-    const fields={page_location:cleanLocation,page_referrer:'',page_title:pageTitle,form_name:form==='visualizer'?'visualizer':'homepage',marketing_source:vendorSource()};
+    const fields={page_location:cleanLocation,page_referrer:'',page_title:pageTitle,form_name:form==='visualizer'?'visualizer':form==='instagram'?'instagram_portfolio':'homepage',marketing_source:vendorSource()};
     // Do not forward arbitrary UTM text to vendors. Only registered campaign labels are sent.
     if(touch?.utm_medium==='qr')fields.campaign_medium='qr';
     if(touch?.utm_campaign==='holiday_2026')fields.campaign_name='holiday_2026';
@@ -53,9 +53,10 @@
     // Explicit masking is inherited by dynamically added descendants, including photos.
     document.querySelectorAll('form,#photoPreview,#pics,.picwrap,#directions,.compare,#formStatus,#quoteStatus,#contactStatus,#photoStatus').forEach(e=>e.setAttribute('data-clarity-mask','true'));
     document.addEventListener('input',e=>{const form=e.target.closest?.('#quoteForm,#contactForm');if(!form)return;const kind=page==='/visualizer/'?'visualizer':'homepage';if(started.has(kind))return;started.add(kind);track('quote_form_start',kind);},{capture:true});
-    document.addEventListener('click',e=>{const a=e.target.closest?.('a[href]');if(!a)return;const u=new URL(a.href,location.href);if(u.origin===location.origin&&(u.hash==='#quote'||u.pathname==='/visualizer/'))track('quote_cta_click',u.pathname==='/visualizer/'?'visualizer':'homepage');});
+    document.addEventListener('click',e=>{const a=e.target.closest?.('a[href]');if(!a)return;if(a.dataset.analytics==='instagram-portfolio')track('instagram_portfolio_click','instagram');const u=new URL(a.href,location.href);if(u.origin===location.origin&&(u.hash==='#quote'||u.pathname==='/visualizer/'))track('quote_cta_click',u.pathname==='/visualizer/'?'visualizer':'homepage');});
     const button=document.createElement('button');button.type='button';button.id='mlPrivacySettings';button.textContent='Analytics preferences';button.onclick=preferences;document.body.append(button);
     const preference=read(CONSENT);if(preference==='granted'&&navigator.globalPrivacyControl!==true){active=true;load()}else if(preference!=='denied'&&navigator.globalPrivacyControl!==true)preferences();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
+
